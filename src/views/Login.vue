@@ -1,9 +1,10 @@
 <template>
   <div class="login">
-    <form class="form-signin">
+    <form class="form-signin" @submit.prevent="signin">
       <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
       <label for="inputEmail" class="sr-only">Email address</label>
       <input
+        v-model="user.username"
         type="email"
         id="inputEmail"
         class="form-control"
@@ -13,6 +14,7 @@
       >
       <label for="inputPassword" class="sr-only">Password</label>
       <input
+        v-model="user.password"
         type="password"
         id="inputPassword"
         class="form-control"
@@ -31,7 +33,26 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      user: {
+        username: "",
+        password: ""
+      }
+    };
+  },
+  methods: {
+    signin() {
+      const api = `${process.env.VUE_APP_API}/admin/signin`;   
+      this.$http.post(api, this.user).then(res => {
+        if (res.data.success) {
+          this.$router.push("/");
+        }
+      });
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
