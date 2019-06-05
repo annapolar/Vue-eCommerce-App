@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-right mt-4">
-      <button class="btn btn-primary">+ Add Product</button>
+      <button class="btn btn-primary" @click="showModal=true"> Add Product</button>
     </div>
     <table class="table mt-4">
       <thead>
@@ -30,19 +30,30 @@
         </tr>
       </tbody>
     </table>
+    <!-- --------- Dialog --------- -->
+    <Dialog v-if="showModal" @close="showModal = false">
+       <div slot="header">this is custom header</div>
+       <div slot="body">this is custom body</div>
+    </Dialog>
   </div>
 </template>
 
 <script>
+import Dialog from "../components/Dialog";
+
 export default {
+  components: { Dialog },
   data() {
     return {
-      products: []
+      products: [],
+      showModal:false
     };
   },
   methods: {
     getProducts() {
-      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/products`;
+      const api = `${process.env.VUE_APP_API}/api/${
+        process.env.VUE_APP_USER
+      }/products`;
       this.$http.get(api).then(response => {
         this.products = response.data.products;
       });
