@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-right mt-4">
-      <button class="btn btn-primary" @click="showModal=true">Add Product</button>
+      <button class="btn btn-primary" @click="addProduct">Add Product</button>
     </div>
     <table class="table mt-4">
       <thead>
@@ -25,7 +25,10 @@
             <span v-else class="text-muted">inactive</span>
           </td>
           <td>
-            <button class="btn btn-outline-primary btn-sm">Edit</button>
+            <span class="d-inline-flex">
+              <button class="btn btn-outline-primary btn-sm" @click="editProduct(item)">Edit</button>
+              <button class="btn btn-outline-danger btn-sm" @click="deleteProduct(item)">Delete</button>
+            </span>
           </td>
         </tr>
       </tbody>
@@ -40,13 +43,7 @@
           <div class="col-sm-4">
             <div class="form-group">
               <label for="image">Image URL</label>
-              <input
-                type="text"
-                class="form-control"
-                id="image"
-                v-model="tempProduct.imageUrl"
-                placeholder="Image URL"
-              >
+              <input type="text" class="form-control" id="image" v-model="tempProduct.imageUrl">
             </div>
             <div class="form-group">
               <label for="customFile">
@@ -65,15 +62,8 @@
           <div class="col-sm-8">
             <div class="form-group">
               <label for="title">Product Title</label>
-              <input
-                type="text"
-                class="form-control"
-                id="title"
-                v-model="tempProduct.title"
-                placeholder="Product Title"
-              >
+              <input type="text" class="form-control" id="title" v-model="tempProduct.title">
             </div>
-
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="category">Category</label>
@@ -82,18 +72,11 @@
                   class="form-control"
                   id="category"
                   v-model="tempProduct.category"
-                  placeholder="Category"
                 >
               </div>
               <div class="form-group col-md-6">
                 <label for="price">Unit</label>
-                <input
-                  type="unit"
-                  class="form-control"
-                  id="unit"
-                  v-model="tempProduct.unit"
-                  placeholder="Unit"
-                >
+                <input type="unit" class="form-control" id="unit" v-model="tempProduct.unit">
               </div>
             </div>
 
@@ -105,18 +88,11 @@
                   class="form-control"
                   id="origin_price"
                   v-model="tempProduct.origin_price"
-                  placeholder="Original Price"
                 >
               </div>
               <div class="form-group col-md-6">
                 <label for="price">Price</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="price"
-                  v-model="tempProduct.price"
-                  placeholder="Price"
-                >
+                <input type="number" class="form-control" id="price" v-model="tempProduct.price">
               </div>
             </div>
             <hr>
@@ -128,18 +104,11 @@
                 class="form-control"
                 id="description"
                 v-model="tempProduct.description"
-                placeholder="Product Description"
               ></textarea>
             </div>
             <div class="form-group">
               <label for="content">Content</label>
-              <textarea
-                type="text"
-                class="form-control"
-                id="content"
-                v-model="tempProduct.content"
-                placeholder="Product Content"
-              ></textarea>
+              <textarea type="text" class="form-control" id="content" v-model="tempProduct.content"></textarea>
             </div>
             <div class="form-group">
               <div class="form-check">
@@ -159,7 +128,7 @@
       </div>
       <div slot="footer">
         <button type="button" class="btn btn-outline-secondary" @click="showModal=false">Cancel</button>
-        <button type="button" class="btn btn-primary" @click="updateProduct">Add</button>
+        <button type="button" class="btn btn-primary" @click="updateProduct">Confirm</button>
       </div>
     </Dialog>
   </div>
@@ -180,21 +149,33 @@ export default {
   methods: {
     getProducts() {
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/admin/products`;
-      this.$http.get(api).then(response => {
-        this.products = response.data.products;
-      });
+      this.$http.get(api).then(response => {this.products = response.data.products;});
     },
     updateProduct() {
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/admin/product`;
-      this.$http.post(api, {data:this.tempProduct}).then(response => {
-        if(response.data.success){
-            this.showModal = false
-            this.getProducts();
-        }else{
-            this.showModal = false
-            this.getProducts();
-            console.log('fail')
-        }     
+      this.$http.post(api, { data: this.tempProduct }).then(response => {
+        if (response.data.success) {
+          this.showModal = false;
+          this.getProducts();
+        } else {
+          this.showModal = false;
+          this.getProducts();
+          alert('fail adding product, please try again')
+        }
+      });
+    },
+    addProduct(){
+        this.tempProduct = {}
+        this.showModal = true 
+    },
+    editProduct(data){
+        this.tempProduct = data
+        this.showModal = true         
+    },
+    deleteProduct(data){
+      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/admin/product/${data.id}`;
+      this.$http.delete(api, data.id).then(response => {
+          this.products.splice(data,1)
       });
     }
   },
