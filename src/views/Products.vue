@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-right mt-4">
-      <button class="btn btn-primary" @click="showModal=true"> Add Product</button>
+      <button class="btn btn-primary" @click="showModal=true">Add Product</button>
     </div>
     <table class="table mt-4">
       <thead>
@@ -22,7 +22,7 @@
           <td class="text-right">${{item.price}}</td>
           <td>
             <span v-if="item.is_enabled" class="text-success">active</span>
-            <span v-else>inactive</span>
+            <span v-else class="text-muted">inactive</span>
           </td>
           <td>
             <button class="btn btn-outline-primary btn-sm">Edit</button>
@@ -30,10 +30,137 @@
         </tr>
       </tbody>
     </table>
-    <!-- --------- Dialog --------- -->
-    <Dialog v-if="showModal" @close="showModal = false">
-       <div slot="header">this is custom header</div>
-       <div slot="body">this is custom body</div>
+    <!-- ============== Dialog ================ -->
+    <Dialog v-if="showModal">
+      <div slot="header">
+        <h3>Add New Product</h3>
+      </div>
+      <div slot="body">
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="form-group">
+              <label for="image">Image URL</label>
+              <input
+                type="text"
+                class="form-control"
+                id="image"
+                v-model="tempProduct.imageUrl"
+                placeholder="Image URL"
+              >
+            </div>
+            <div class="form-group">
+              <label for="customFile">
+                or Upload Image
+                <i class="fas fa-spinner fa-spin"></i>
+              </label>
+              <input type="file" id="customFile" class="form-control" ref="files">
+            </div>
+            <img
+              img="https://cdn.pixabay.com/photo/2017/09/09/18/25/living-room-2732939__340.jpg"
+              class="img-fluid"
+              :src="tempProduct.imageUrl"
+              alt
+            >
+          </div>
+          <div class="col-sm-8">
+            <div class="form-group">
+              <label for="title">Product Title</label>
+              <input
+                type="text"
+                class="form-control"
+                id="title"
+                v-model="tempProduct.title"
+                placeholder="Product Title"
+              >
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="category">Category</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="category"
+                  v-model="tempProduct.category"
+                  placeholder="Category"
+                >
+              </div>
+              <div class="form-group col-md-6">
+                <label for="price">Unit</label>
+                <input
+                  type="unit"
+                  class="form-control"
+                  id="unit"
+                  v-model="tempProduct.unit"
+                  placeholder="Unit"
+                >
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="origin_price">Original Price</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="origin_price"
+                  v-model="tempProduct.origin_price"
+                  placeholder="Original Price"
+                >
+              </div>
+              <div class="form-group col-md-6">
+                <label for="price">Price</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="price"
+                  v-model="tempProduct.price"
+                  placeholder="Price"
+                >
+              </div>
+            </div>
+            <hr>
+
+            <div class="form-group">
+              <label for="description">Product Description</label>
+              <textarea
+                type="text"
+                class="form-control"
+                id="description"
+                v-model="tempProduct.description"
+                placeholder="Product Description"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <label for="content">Content</label>
+              <textarea
+                type="text"
+                class="form-control"
+                id="content"
+                v-model="tempProduct.content"
+                placeholder="Product Content"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  v-model="tempProduct.is_enabled"
+                  :true-value="1"
+                  :false-value="0"
+                  id="is_enabled"
+                >
+                <label class="form-check-label" for="is_enabled">Available</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div slot="footer">
+        <button type="button" class="btn btn-outline-secondary" @click="showModal=false">Cancel</button>
+        <button type="button" class="btn btn-primary" @click="updateProduct">Add</button>
+      </div>
     </Dialog>
   </div>
 </template>
@@ -46,16 +173,28 @@ export default {
   data() {
     return {
       products: [],
-      showModal:false
+      showModal: false,
+      tempProduct: {}
     };
   },
   methods: {
     getProducts() {
-      const api = `${process.env.VUE_APP_API}/api/${
-        process.env.VUE_APP_USER
-      }/products`;
+      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/admin/products`;
       this.$http.get(api).then(response => {
         this.products = response.data.products;
+      });
+    },
+    updateProduct() {
+      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/admin/product`;
+      this.$http.post(api, {data:this.tempProduct}).then(response => {
+        if(response.data.success){
+            this.showModal = false
+            this.getProducts();
+        }else{
+            this.showModal = false
+            this.getProducts();
+            console.log('fail')
+        }     
       });
     }
   },
