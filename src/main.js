@@ -4,9 +4,11 @@ import router from "./router";
 import store from "./store";
 import axios from "axios";
 import VueAxios from "vue-axios";
+import Spinner from "./components/Spinner.vue"
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
+Vue.component('Spinner', Spinner)
 
 axios.defaults.withCredentials = true;
 

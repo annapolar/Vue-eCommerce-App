@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Spinner v-if="isLoading"/>
     <div class="text-right mt-4">
       <button class="btn btn-primary" @click="openDialog(true)">Add Product</button>
     </div>
@@ -48,7 +49,7 @@
             <div class="form-group">
               <label for="customFile">
                 or Upload Image
-                <i class="fas fa-spinner fa-spin"></i>
+                <i class="fas fa-spinner fa-spin" v-if="isLoading"></i>
               </label>
               <input type="file" id="customFile" class="form-control" ref="files" @change="uploadFile">
             </div>
@@ -131,21 +132,27 @@
 
 <script>
 import Dialog from "../components/Dialog";
+import Spinner from "../components/Spinner";
 
 export default {
-  components: { Dialog },
+  components: { Dialog, Spinner },
   data() {
     return {
       products: [],
       showModal: false,
       tempProduct: {},
-      isNew: false
+      isNew: false,
+      isLoading: false     
     };
   },
   methods: {
     getProducts() {
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/admin/products`;
-      this.$http.get(api).then(response => {this.products = response.data.products;});
+      this.isLoading = true
+      this.$http.get(api).then(response => {
+          this.isLoading = false
+          this.products = response.data.products;
+          });
     },
     updateProduct() {
       let api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/admin/product`;
@@ -190,11 +197,13 @@ export default {
         formData.append('file-to-upload', uploadFile)   // add the file to formData
 
         const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/admin/upload`;
+        this.isLoading = true
         this.$http.post(url, formData, {                  // then submit
             headers:{
                 'Content-Type':'multipart/form-data'
             }
         }).then(res => {
+            this.isLoading = false
             if(res.data.success){
                 // this.tempProduct.imageUrl = res.data.imageUrl            // this isn't work **
                 this.$set(this.tempProduct,'imageUrl', res.data.imageUrl)   // so using $set to set(write) this prop 'imageUrl' into tempProduct
