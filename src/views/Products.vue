@@ -50,14 +50,9 @@
                 or Upload Image
                 <i class="fas fa-spinner fa-spin"></i>
               </label>
-              <input type="file" id="customFile" class="form-control" ref="files">
+              <input type="file" id="customFile" class="form-control" ref="files" @change="uploadFile">
             </div>
-            <img
-              img="https://cdn.pixabay.com/photo/2017/09/09/18/25/living-room-2732939__340.jpg"
-              class="img-fluid"
-              :src="tempProduct.imageUrl"
-              alt
-            >
+            <img class="img-fluid" :src="tempProduct.imageUrl" alt="">
           </div>
           <div class="col-sm-8">
             <div class="form-group">
@@ -187,6 +182,24 @@ export default {
       this.$http.delete(api, data.id).then(response => {
           this.products.splice(data,1)
       });
+    },
+    uploadFile(){
+        console.log(this)
+        const uploadFile = this.$refs.files.files[0]    // get the file
+        const formData = new FormData()                 // use formData web api to build an object
+        formData.append('file-to-upload', uploadFile)   // add the file to formData
+
+        const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/admin/upload`;
+        this.$http.post(url, formData, {                  // then submit
+            headers:{
+                'Content-Type':'multipart/form-data'
+            }
+        }).then(res => {
+            if(res.data.success){
+                // this.tempProduct.imageUrl = res.data.imageUrl            // this isn't work **
+                this.$set(this.tempProduct,'imageUrl', res.data.imageUrl)   // so using $set to set(write) this prop 'imageUrl' into tempProduct
+            }
+        })
     }
   },
   created() {
