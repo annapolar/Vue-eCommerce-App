@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-right mt-4">
-      <button class="btn btn-primary" @click="addProduct">Add Product</button>
+      <button class="btn btn-primary" @click="openDialog(true)">Add Product</button>
     </div>
     <table class="table mt-4">
       <thead>
@@ -26,7 +26,7 @@
           </td>
           <td>
             <span class="d-inline-flex">
-              <button class="btn btn-outline-primary btn-sm" @click="editProduct(item)">Edit</button>
+              <button class="btn btn-outline-primary btn-sm" @click="openDialog(false, item)">Edit</button>
               <button class="btn btn-outline-danger btn-sm" @click="deleteProduct(item)">Delete</button>
             </span>
           </td>
@@ -143,7 +143,8 @@ export default {
     return {
       products: [],
       showModal: false,
-      tempProduct: {}
+      tempProduct: {},
+      isNew: false
     };
   },
   methods: {
@@ -152,8 +153,15 @@ export default {
       this.$http.get(api).then(response => {this.products = response.data.products;});
     },
     updateProduct() {
-      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/admin/product`;
-      this.$http.post(api, { data: this.tempProduct }).then(response => {
+      let api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/admin/product`;
+      let httpMethod = 'post'
+
+      if(!this.isNew){
+          api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/admin/product/${this.tempProduct.id}`
+          httpMethod = 'put'
+      }
+      
+      this.$http[httpMethod](api, { data: this.tempProduct }).then(response => {
         if (response.data.success) {
           this.showModal = false;
           this.getProducts();
@@ -164,13 +172,15 @@ export default {
         }
       });
     },
-    addProduct(){
-        this.tempProduct = {}
-        this.showModal = true 
-    },
-    editProduct(data){
-        this.tempProduct = data
-        this.showModal = true         
+    openDialog(isNew, data){
+        if(isNew){
+            this.tempProduct = {}
+            this.isNew = true
+        }else{
+            this.tempProduct = Object.assign({},data)
+            this.isNew = false
+        }
+        this.showModal = true
     },
     deleteProduct(data){
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/admin/product/${data.id}`;
