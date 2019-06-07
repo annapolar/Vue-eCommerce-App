@@ -187,8 +187,13 @@ export default {
     deleteProduct(data){
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/admin/product/${data.id}`;
       this.$http.delete(api, data.id).then(response => {
-          this.products.splice(data,1)
-      });
+          if(response.data.success == true){
+              this.products.splice(data,1)
+              this.$bus.$emit("pushMesssage", response.data.message, "success")
+          }else{
+              this.$bus.$emit("pushMesssage", response.data.message, "danger")
+          }         
+      });  
     },
     uploadFile(){
         console.log(this)
@@ -196,17 +201,19 @@ export default {
         const formData = new FormData()                 // use formData web api to build an object
         formData.append('file-to-upload', uploadFile)   // add the file to formData
 
-        const url = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/admin/upload`;
+        const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/admin/upload`;
         this.isLoading = true
-        this.$http.post(url, formData, {                  // then submit
+        this.$http.post(api, formData, {                  // then submit
             headers:{
                 'Content-Type':'multipart/form-data'
             }
-        }).then(res => {
+        }).then(response => {
             this.isLoading = false
-            if(res.data.success){
-                // this.tempProduct.imageUrl = res.data.imageUrl            // this isn't work **
-                this.$set(this.tempProduct,'imageUrl', res.data.imageUrl)   // so using $set to set(write) this prop 'imageUrl' into tempProduct
+            if(response.data.success){
+                // this.tempProduct.imageUrl = response.data.imageUrl            // this isn't work **
+                this.$set(this.tempProduct,'imageUrl', response.data.imageUrl)   // so using $set to set(write) this prop 'imageUrl' into tempProduct
+            }else{
+                this.$bus.$emit("pushMesssage", response.data.message, "danger")
             }
         })
     }
