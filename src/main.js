@@ -4,14 +4,14 @@ import router from "./router";
 import store from "./store";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import Spinner from "./components/Spinner.vue"
 import './bus'
 import currencyFilter from "./filters/currency";
+import Spinner from "./components/Spinner"
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
-Vue.component('Spinner', Spinner);
 Vue.filter('currency', currencyFilter);
+Vue.component('Spinner', Spinner);
 
 axios.defaults.withCredentials = true;
 

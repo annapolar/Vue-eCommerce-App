@@ -149,10 +149,9 @@
 
 <script>
 import Dialog from "../components/Dialog";
-import Spinner from "../components/Spinner";
 
 export default {
-  components: { Dialog, Spinner },
+  components: { Dialog },
   data() {
     return {
       products: [],

@@ -22,8 +22,8 @@
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/admin/coupon" class="nav-link">
-              <i class="fas fa-ticket-alt"></i>Coupon
+            <router-link to="/admin/coupons" class="nav-link">
+              <i class="fas fa-ticket-alt"></i>Coupons
             </router-link>
           </li>
         </ul>
@@ -37,7 +37,7 @@
         </h6>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <router-link to="/admin/imitationOrder" class="nav-link">
+            <router-link to="/test_order" class="nav-link">
               <i class="fas fa-shopping-cart"></i>Test Order
             </router-link>
           </li>
