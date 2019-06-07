@@ -6,10 +6,12 @@ import axios from "axios";
 import VueAxios from "vue-axios";
 import Spinner from "./components/Spinner.vue"
 import './bus'
+import currencyFilter from "./filters/currency";
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
-Vue.component('Spinner', Spinner)
+Vue.component('Spinner', Spinner);
+Vue.filter('currency', currencyFilter);
 
 axios.defaults.withCredentials = true;
 
