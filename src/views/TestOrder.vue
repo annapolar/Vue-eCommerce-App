@@ -101,6 +101,42 @@
       </div>
       <div class="cartList" v-else>Your Bucket is Empty</div>
     </div> 
+    
+    <!-- ===================== order form ====================== -->
+    <form class="col-md-6" @submit.prevent="createOrder" style="margin-top:30px; padding:20px; background-color:#eff9ff;">
+        <div class="form-group">
+          <label for="useremail">Email</label>
+          <input type="email" class="form-control" name="email" id="useremail"
+            v-model="form.user.email" placeholder="info@email.com">
+        </div>
+
+        <div class="form-group">
+          <label for="username">Name</label>
+          <input type="text" class="form-control" name="name" id="username"
+            v-model="form.user.name" placeholder="Name">
+        </div>
+
+        <div class="form-group">
+          <label for="usertel">Phone Number</label>
+          <input type="tel" class="form-control" id="usertel"
+            v-model="form.user.tel" placeholder="+1 000-000-000">
+        </div>
+
+        <div class="form-group">
+          <label for="useraddress">Address</label>
+          <input type="text" class="form-control" name="address"
+            id="useraddress" v-model="form.user.address">         
+        </div>
+
+        <div class="form-group">
+          <label for="useraddress">Message</label>
+          <textarea name="" id="" class="form-control" cols="30" rows="10"
+            v-model="form.message"></textarea>
+        </div>
+        <div class="text-right">
+          <button class="btn btn-primary">Submit Order</button>
+        </div>
+      </form>
   </div>
 </template>
 
@@ -117,7 +153,16 @@ export default {
         maxWidth: 800
       },
       loadingItem:'',
-      couponCode:''
+      couponCode:'',
+      form: {
+        user: {
+          name: '',
+          email: '',
+          tel: '',
+          address: '',
+        },
+        message: '',
+      },
     };
   },
   methods: {
@@ -181,6 +226,17 @@ export default {
         }else{
           //...
         }
+        this.getCart();
+        this.isLoading = false;
+      });
+    },
+    createOrder(){
+      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/order`;
+      this.isLoading = true;
+      const order = this.form
+      this.$http.post(api,{data:order}).then(response => {
+        console.log(response.data)
+        this.carts = []
         this.getCart();
         this.isLoading = false;
       });
