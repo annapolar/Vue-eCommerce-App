@@ -56,6 +56,40 @@
         <button type="button" class="btn btn-primary" @click="addtoCart(productInfo.id, productInfo.num)">Buy Now</button>
       </div>
     </Dialog>
+
+    <!-- ================ Shopping Cart List ================ -->
+    <div class="shoppingList" style="max-width:800px; background-color:#f4fcf8; padding:20px;">
+      <h2>Your Bucket Lists</h2>
+      <table class="table mt-4">
+        <thead>
+          <tr>
+            <th>Thumbnail</th>
+            <th>Category</th>
+            <th>Product Name</th>
+            <th>Qty</th>
+            <th class="text-right">Price</th>
+            <th class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in carts" :key="item.id">
+            <td>
+              <div
+                style="width:50px; height: 50px; background-size: cover; background-position: center"
+                :style="{backgroundImage: `url(${item.product.imageUrl})`}"
+              ></div>
+            </td>
+            <td>{{item.product.category}}</td>
+            <td>{{item.product.title}}</td>
+            <td>{{item.qty}}</td>
+            <td class="text-right">{{item.product.price | currency}}</td>
+            <td class="text-center"><i class="fas fa-trash"></i></td>
+          </tr>
+        </tbody>
+      </table>
+      <div>Total {{totalPrice | currency}}</div>
+      <h2>Final Total {{totalFinalPrice | currency}}</h2>
+    </div> 
   </div>
 </template>
 
@@ -114,6 +148,14 @@ export default {
         this.isLoading = false;
       });
     }
+  },
+  computed:{
+    totalPrice(){
+      return this.carts.map(cart => cart.total).reduce((total, current) => total+ current, 0)
+    },
+    totalFinalPrice(){
+      return this.carts.map(cart => cart.final_total).reduce((total, current) => total+ current, 0)
+    }  
   },
   created() {
     this.getProducts();
