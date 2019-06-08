@@ -65,6 +65,7 @@ export default {
     return {
       products: [],
       productInfo:{},
+      carts:[],
       isLoading: false,
       showModal:false,
       dialogScheme: {
@@ -86,8 +87,7 @@ export default {
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/product/${id}`;
       this.loadingItem = id;
       this.$http.get(api).then(response => {
-        this.productInfo = response.data.product  
-        console.log(this.productInfo)
+        this.productInfo = response.data.product
         this.showModal = true  
         this.loadingItem = '';
       });
@@ -100,14 +100,24 @@ export default {
         qty
       }
       this.$http.post(api, {data:cart}).then(response => {
-        console.log(response.data)
         this.loadingItem = '';
-         this.showModal = false
+        this.getCart();
+        this.showModal = false
+      });
+    },
+    getCart(){
+      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/cart`;
+      this.isLoading = true;
+      this.$http.get(api).then(response => {
+        this.carts = response.data.data.carts
+        console.log(this.carts)
+        this.isLoading = false;
       });
     }
   },
   created() {
     this.getProducts();
+    this.getCart();
   }
 };
 </script>
