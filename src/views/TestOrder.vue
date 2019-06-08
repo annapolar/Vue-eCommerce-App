@@ -60,35 +60,38 @@
     <!-- ================ Shopping Cart List ================ -->
     <div class="shoppingList" style="max-width:800px; background-color:#f4fcf8; padding:20px;">
       <h2>Your Bucket Lists</h2>
-      <table class="table mt-4">
-        <thead>
-          <tr>
-            <th>Thumbnail</th>
-            <th>Category</th>
-            <th>Product Name</th>
-            <th>Qty</th>
-            <th class="text-right">Price</th>
-            <th class="text-center">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in carts" :key="item.id">
-            <td>
-              <div
-                style="width:50px; height: 50px; background-size: cover; background-position: center"
-                :style="{backgroundImage: `url(${item.product.imageUrl})`}"
-              ></div>
-            </td>
-            <td>{{item.product.category}}</td>
-            <td>{{item.product.title}}</td>
-            <td>{{item.qty}}</td>
-            <td class="text-right">{{item.product.price | currency}}</td>
-            <td class="text-center"><i class="fas fa-trash"></i></td>
-          </tr>
-        </tbody>
-      </table>
-      <div>Total {{totalPrice | currency}}</div>
-      <h2>Final Total {{totalFinalPrice | currency}}</h2>
+      <div class="cartList" v-if="carts.length">
+        <table class="table mt-4">
+          <thead>
+            <tr>
+              <th>Thumbnail</th>
+              <th>Category</th>
+              <th>Product Name</th>
+              <th>Qty</th>
+              <th class="text-right">Price</th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in carts" :key="item.id">
+              <td>
+                <div
+                  style="width:50px; height: 50px; background-size: cover; background-position: center"
+                  :style="{backgroundImage: `url(${item.product.imageUrl})`}"
+                ></div>
+              </td>
+              <td>{{item.product.category}}</td>
+              <td>{{item.product.title}}</td>
+              <td>{{item.qty}}</td>
+              <td class="text-right">{{item.product.price | currency}}</td>
+              <td class="text-center"><button @click="removeCartItem(item.id)"><i class="fas fa-trash"></i></button></td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>Total {{totalPrice | currency}}</h3>
+        <h3 v-if="totalFinalPrice != totalPrice">Final Total {{totalFinalPrice | currency}}</h3>
+      </div>
+      <div class="cartList" v-else>Your Bucket is Empty</div>
     </div> 
   </div>
 </template>
@@ -145,6 +148,14 @@ export default {
       this.$http.get(api).then(response => {
         this.carts = response.data.data.carts
         console.log(this.carts)
+        this.isLoading = false;
+      });
+    },
+    removeCartItem(id){
+      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/cart/${id}`;
+      this.isLoading = true;
+      this.$http.delete(api).then(response => {
+        this.getCart();
         this.isLoading = false;
       });
     }
