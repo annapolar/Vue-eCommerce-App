@@ -2,7 +2,7 @@
   <div>
     <Spinner v-if="isLoading"/>
     <div class="row mt-4">
-      <div class="col-md-4 mb-4" v-for="item in products" :key="item.id">
+      <div class="col-md-4 mb-4" v-for="item in products" :key="item.id" v-if="item.is_enabled">
         <div class="card border-0 shadow-sm">
           <div
             style="height: 150px; background-size: cover; background-position: center"
@@ -16,23 +16,46 @@
             <p class="card-text">{{ item.content }}</p>
             <div class="d-flex justify-content-between align-items-baseline">
               <div class="h5" v-if="!item.price">{{ item.origin_price | currency}}</div>
-              <del class="h6" v-if="item.price">Original {{ item.origin_price | currency}}</del>
+              <div class="h6" v-if="item.price">Original {{ item.origin_price | currency}}</div>
               <div class="h5" v-if="item.price">Now Sale {{ item.price | currency}}</div>
             </div>
           </div>
           <div class="card-footer d-flex">
-            <button type="button" class="btn btn-outline-secondary btn-sm">
-              <i class="fas fa-spinner fa-spin" v-if="isLoading"></i>
+            <button type="button" class="btn btn-outline-secondary btn-sm" @click="getProductInfo(item.id)">
+              <i class="fas fa-spinner fa-spin" v-if="loadingItem === item.id"></i>
               View Details
             </button>
             <button type="button" class="btn btn-outline-danger btn-sm ml-auto">
-              <i class="fas fa-spinner fa-spin" v-if="isLoading"></i>
+              <i class="fas fa-spinner fa-spin" v-if="loadingItem === item.id"></i>
               Add to Cart
             </button>
           </div>
         </div>
       </div>
     </div>
+    <!-- ============== Dialog ================ -->
+    <Dialog v-if="showModal" v-bind="dialogScheme">
+      <div slot="header"><h2>{{ productInfo.title }}</h2></div>
+      <div slot="body">
+        <img class="img-fluid" :src="productInfo.imageUrl" alt="">
+        <div class="h6">Original {{ productInfo.origin_price | currency}}</div>
+        <div class="h5">Now Sale {{ productInfo.price | currency}}</div>
+        <p>{{ productInfo.content }}</p>
+        <p>{{ productInfo.description }}</p>
+        <select name="" class="form-control mt-3" v-model="productInfo.num">
+          <option :value="num" v-for="num in 10" :key="num">
+            Select {{num}} {{productInfo.unit}}
+          </option>
+        </select>
+      </div>
+      <div slot="footer">
+        <div class="text-muted text-nowrap mr-3">
+          Total: <strong>{{ productInfo.num * productInfo.price || 0 }}</strong> 元
+        </div>
+        <button type="button" class="btn btn-outline-secondary" @click="showModal=false">Go Back</button>
+        <button type="button" class="btn btn-primary">Buy Now</button>
+      </div>
+    </Dialog>
   </div>
 </template>
 
@@ -41,7 +64,13 @@ export default {
   data() {
     return {
       products: [],
-      isLoading: false
+      productInfo:{},
+      isLoading: false,
+      showModal:false,
+      dialogScheme: {
+        maxWidth: 800
+      },
+      loadingItem:''
     };
   },
   methods: {
@@ -51,6 +80,16 @@ export default {
       this.$http.get(api).then(response => {
         this.products = response.data.products;
         this.isLoading = false;
+      });
+    },
+    getProductInfo(id){
+      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/product/${id}`;
+      this.loadingItem = id;
+      this.$http.get(api).then(response => {
+        this.productInfo = response.data.product  
+        console.log(this.productInfo)
+        this.showModal = true  
+        this.loadingItem = '';
       });
     }
   },

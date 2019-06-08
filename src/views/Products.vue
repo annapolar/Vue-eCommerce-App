@@ -52,7 +52,7 @@
         </ul>
     </nav>
     <!-- ============== Dialog ================ -->
-    <Dialog v-if="showModal">
+    <Dialog v-if="showModal" v-bind="dialogScheme">
       <div slot="header">
         <h3>Add New Product</h3>
       </div>
@@ -148,10 +148,8 @@
 </template>
 
 <script>
-import Dialog from "../components/Dialog";
 
 export default {
-  components: { Dialog },
   data() {
     return {
       products: [],
@@ -159,7 +157,10 @@ export default {
       showModal: false,
       tempProduct: {},
       isNew: false,
-      isLoading: false    
+      isLoading: false,
+      dialogScheme:{
+        maxWidth: 700
+      }   
     };
   },
   methods: {

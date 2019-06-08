@@ -1,8 +1,8 @@
 <template>
-  <transition name="modal">
+  <transition name="modal" v-bind="$props">
     <div class="modal-mask">
       <div class="modal-wrapper">
-        <div class="modal-container">
+        <div class="modal-container" :style="{'max-width': maxWidth+'px','min-width': minWidth+'px', width: width+'px'}">
           <div class="modal-contentAll">
             <div class="modal-header">
               <slot name="header"></slot>
@@ -11,8 +11,7 @@
               <slot name="body"></slot>
             </div>
             <div class="modal-footer">
-              <slot name="footer">
-              </slot>
+              <slot name="footer"></slot>
             </div>
           </div>
         </div>
@@ -24,6 +23,11 @@
 <script>
 export default {
   name: "Dialog",
+  props: {
+    maxWidth: { type: Number, default: 500 },
+    minWidth: { type: Number, default: 300 },
+    width: { type: Number, default: undefined }
+  },
   data() {
     return {
       showModal: false
@@ -48,12 +52,11 @@ export default {
 .modal-wrapper {
   display: table-cell;
   vertical-align: middle;
+  padding:0 20px;
 }
 
 .modal-container {
   width: 100%;
-  max-width: 700px;
-  min-width: 400px;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
