@@ -25,7 +25,7 @@
               <i class="fas fa-spinner fa-spin" v-if="loadingItem === item.id"></i>
               View Details
             </button>
-            <button type="button" class="btn btn-outline-danger btn-sm ml-auto">
+            <button type="button" class="btn btn-outline-danger btn-sm ml-auto" @click="addtoCart(item.id)">
               <i class="fas fa-spinner fa-spin" v-if="loadingItem === item.id"></i>
               Add to Cart
             </button>
@@ -50,10 +50,10 @@
       </div>
       <div slot="footer">
         <div class="text-muted text-nowrap mr-3">
-          Total: <strong>{{ productInfo.num * productInfo.price || 0 }}</strong> 元
+          Total: <strong>{{ productInfo.num * productInfo.price || productInfo.price * 1 }}</strong> 元
         </div>
         <button type="button" class="btn btn-outline-secondary" @click="showModal=false">Go Back</button>
-        <button type="button" class="btn btn-primary">Buy Now</button>
+        <button type="button" class="btn btn-primary" @click="addtoCart(productInfo.id, productInfo.num)">Buy Now</button>
       </div>
     </Dialog>
   </div>
@@ -90,6 +90,19 @@ export default {
         console.log(this.productInfo)
         this.showModal = true  
         this.loadingItem = '';
+      });
+    },
+    addtoCart(id,qty=1){
+      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/cart`;
+      this.loadingItem = id;
+      const cart = {
+        product_id: id,
+        qty
+      }
+      this.$http.post(api, {data:cart}).then(response => {
+        console.log(response.data)
+        this.loadingItem = '';
+         this.showModal = false
       });
     }
   },
