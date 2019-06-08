@@ -89,7 +89,15 @@
           </tbody>
         </table>
         <h3>Total {{totalPrice | currency}}</h3>
-        <h3 v-if="totalFinalPrice != totalPrice">Final Total {{totalFinalPrice | currency}}</h3>
+        <h3 v-if="totalFinalPrice !== totalPrice">Final Total {{totalFinalPrice | currency}}</h3>
+        <div class="input-group mb-3 input-group-sm">
+          <input type="text" class="form-control" placeholder="Your Coupon Code" v-model="couponCode">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" @click="addCouponCode">
+              Apply
+            </button>
+          </div>
+        </div>
       </div>
       <div class="cartList" v-else>Your Bucket is Empty</div>
     </div> 
@@ -108,7 +116,8 @@ export default {
       dialogScheme: {
         maxWidth: 800
       },
-      loadingItem:''
+      loadingItem:'',
+      couponCode:''
     };
   },
   methods: {
@@ -155,6 +164,23 @@ export default {
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/cart/${id}`;
       this.isLoading = true;
       this.$http.delete(api).then(response => {
+        this.getCart();
+        this.isLoading = false;
+      });
+    },
+    addCouponCode(){
+      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/coupon`;
+      this.isLoading = true;
+      const coupon = {
+        code: this.couponCode
+      }
+      this.$http.post(api, {data:coupon}).then(response => {
+        console.log(response.data)
+        if(response.data.success == false){
+          this.$bus.$emit("pushMesssage", response.data.message, "danger")
+        }else{
+          //...
+        }
         this.getCart();
         this.isLoading = false;
       });
