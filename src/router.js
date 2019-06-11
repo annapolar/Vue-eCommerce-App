@@ -4,6 +4,7 @@ import Login from "./views/Login.vue";
 import Dashboard from "./components/Dashboard.vue";
 import Products from "./views/Products.vue";
 import TestOrder from "./views/TestOrder.vue"
+import TestCheckout from "./views/TestCheckout.vue"
 
 Vue.use(Router);
 
@@ -40,6 +41,11 @@ export default new Router({
           path: "test_order",
           name: "TestOrder",
           component: TestOrder
+        },
+        {
+          path: "test_checkout/:orderId",
+          name: "TestCheckut",
+          component: TestCheckout
         }
       ]
     }

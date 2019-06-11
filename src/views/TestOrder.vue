@@ -242,9 +242,13 @@ export default {
         if (valid) {
           this.$http.post(api,{data:order}).then(response => {
           console.log(response.data)
+          if(response.data.success){
+            this.$router.push(`/test_checkout/${response.data.orderId}`)
+          }
           this.carts = []
           this.getCart();
           this.isLoading = false;
+          
          });
         }else{
           console.log('not completed')
