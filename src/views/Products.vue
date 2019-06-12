@@ -35,22 +35,6 @@
       </tbody>
     </table>
 
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <li class="page-item" :class="{'disabled': !pagination.has_pre}">
-                <a class="page-link" href="#" aria-label="Previous" @click.prevent="getProducts(pagination.current_page - 1)">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item" v-for="page in pagination.total_pages" :key="page" :class="{'active': pagination.current_page === page}">
-                <a class="page-link" href="#" @click.prevent="getProducts(page)">{{page}}</a></li>
-            <li class="page-item" :class="{'disabled': !pagination.has_next}">
-                <a class="page-link" href="#" aria-label="Next" @click.prevent="getProducts(pagination.current_page + 1)">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
     <!-- ============== Dialog ================ -->
     <Dialog v-if="showModal" v-bind="dialogScheme">
       <div slot="header">
@@ -144,6 +128,13 @@
         <button type="button" class="btn btn-primary" @click="updateProduct">Confirm</button>
       </div>
     </Dialog>
+
+    <!-- ============== Pagination ================ -->
+    <Pagination 
+    v-bind="pagination"
+    @getPage="getProducts" 
+    @getPrev="getProducts(pagination.current_page - 1)" 
+    @getNext="getProducts(pagination.current_page + 1)"/>
   </div>
 </template>
 
@@ -160,7 +151,7 @@ export default {
       isLoading: false,
       dialogScheme:{
         maxWidth: 700
-      }   
+      }
     };
   },
   methods: {
