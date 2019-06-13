@@ -50,9 +50,9 @@
       </div>
       <div slot="footer">
         <div class="text-muted text-nowrap mr-3">
-          Total: <strong>{{ productInfo.num * productInfo.price || productInfo.price * 1 }}</strong> 元
+          Total: <strong>{{ productInfo.num * productInfo.price || productInfo.price * 1 }}</strong>
         </div>
-        <button type="button" class="btn btn-outline-secondary" @click="showModal=false">Go Back</button>
+        <button type="button" class="btn btn-outline-secondary" @click="closeDialog">Go Back</button>
         <button type="button" class="btn btn-primary" @click="addtoCart(productInfo.id, productInfo.num)">Buy Now</button>
       </div>
     </Dialog>
@@ -93,7 +93,7 @@
         <div class="input-group mb-3 input-group-sm">
           <input type="text" class="form-control" placeholder="Your Coupon Code" v-model="couponCode">
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" @click="addCouponCode">
+            <button class="btn btn-outline-secondary" type="button" @click="addCouponCode(couponCode)">
               Apply
             </button>
           </div>
@@ -103,7 +103,7 @@
     </div> 
 
     <!-- ===================== order form ====================== -->
-    <form class="col-md-6" @submit.prevent="createOrder" style="margin-top:30px; padding:20px; background-color:#eff9ff;">
+    <form class="col-md-6" @submit.prevent="createOrder(form)" style="margin-top:30px; padding:20px; background-color:#eff9ff;">
         <div class="form-group">
           <label for="useremail">Email</label>
           <input type="email" class="form-control" id="useremail" :class="{'is-invalid':errors.has('email')}"
@@ -145,118 +145,33 @@
 </template>
 
 <script>
+import {mapState, mapActions, mapMutations} from 'vuex'
+
 export default {
   data() {
-    return {
-      products: [],
-      productInfo:{},
-      carts:[],
-      isLoading: false,
-      showModal:false,
+    return { 
       dialogScheme: {
         maxWidth: 800
-      },
-      loadingItem:'',
+      },  
       couponCode:'',
       form: {
-        user: {
-          name: '',
-          email: '',
-          tel: '',
-          address: '',
-        },
-        message: '',
-      }
+      user: {
+        name: '',
+        email: '',
+        tel: '',
+        address: '',
+      },
+      message: '',
+    },
     };
   },
-  methods: {
-    getProducts() {
-      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/products`;
-      this.isLoading = true;
-      this.$http.get(api).then(response => {
-        this.products = response.data.products;
-        this.isLoading = false;
-      });
-    },
-    getProductInfo(id){
-      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/product/${id}`;
-      this.loadingItem = id;
-      this.$http.get(api).then(response => {
-        this.productInfo = response.data.product
-        this.showModal = true  
-        this.loadingItem = '';
-      });
-    },
-    addtoCart(id,qty=1){
-      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/cart`;
-      this.loadingItem = id;
-      const cart = {
-        product_id: id,
-        qty
-      }
-      this.$http.post(api, {data:cart}).then(response => {
-        this.loadingItem = '';
-        this.getCart();
-        this.showModal = false
-      });
-    },
-    getCart(){
-      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/cart`;
-      this.isLoading = true;
-      this.$http.get(api).then(response => {
-        this.carts = response.data.data.carts
-        console.log(this.carts)
-        this.isLoading = false;
-      });
-    },
-    removeCartItem(id){
-      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/cart/${id}`;
-      this.isLoading = true;
-      this.$http.delete(api).then(response => {
-        this.getCart();
-        this.isLoading = false;
-      });
-    },
-    addCouponCode(){
-      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/coupon`;
-      this.isLoading = true;
-      const coupon = {
-        code: this.couponCode
-      }
-      this.$http.post(api, {data:coupon}).then(response => {
-        console.log(response.data)
-        if(response.data.success == false){
-          this.$bus.$emit("pushMesssage", response.data.message, "danger")
-        }else{
-          //...
-        }
-        this.getCart();
-        this.isLoading = false;
-      });
-    },
-    createOrder(){
-      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/order`;
-      this.isLoading = true;
-      const order = this.form
-      this.$validator.validate().then(valid => {
-        if (valid) {
-          this.$http.post(api,{data:order}).then(response => {
-          console.log(response.data)
-          if(response.data.success){
-            this.$router.push(`/test_checkout/${response.data.orderId}`)
-          }
-          this.carts = []
-          this.getCart();
-          this.isLoading = false;
-          
-         });
-        }else{
-          console.log('not completed')
-        }
-      });      
-    }
+  created() {
+    this.getProducts();
+    this.getCart();
   },
   computed:{
+    ...mapState(['isLoading','products','productInfo','loadingItem','showModal','carts']),
+
     totalPrice(){
       return this.carts.map(cart => cart.total).reduce((total, current) => total+ current, 0)
     },
@@ -264,9 +179,14 @@ export default {
       return this.carts.map(cart => cart.final_total).reduce((total, current) => total+ current, 0)
     }  
   },
-  created() {
-    this.getProducts();
-    this.getCart();
+  methods: {
+     ...mapMutations(['LOADING','SHOW_MODAL','LOADITEM','PRODUCTS','PRODUCT_INFO','CARTS','COUPON_CODE','FORM']),
+     ...mapActions(['getProducts','getProductInfo','closeDialog','getCart','removeCartItem','addCouponCode','createOrder']),
+
+     addtoCart(id, qty=1){
+       this.$store.dispatch('addtoCart',{id, qty})
+     }
   }
-};
+}
+
 </script>

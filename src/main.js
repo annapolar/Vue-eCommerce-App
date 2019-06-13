@@ -21,11 +21,14 @@ Vue.component('Pagination', Pagination);
 
 axios.defaults.withCredentials = true;
 
-new Vue({
+const VUE = new Vue({
   router,
   store,
   render: h => h(App)
-}).$mount("#app");
+})
+
+Vue.$instance = VUE
+VUE.$mount("#app");
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
