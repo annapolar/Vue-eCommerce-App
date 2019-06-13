@@ -5,6 +5,8 @@ import Dashboard from "./components/Dashboard.vue";
 import Products from "./views/Products.vue";
 import TestOrder from "./views/TestOrder.vue"
 import TestCheckout from "./views/TestCheckout.vue"
+import Carts from "./views/Carts.vue"
+import OrderForm from "./views/OrderForm.vue"
 
 Vue.use(Router);
 
@@ -46,6 +48,16 @@ export default new Router({
           path: "test_checkout/:orderId",
           name: "TestCheckut",
           component: TestCheckout
+        },
+        {
+          path: "carts",
+          name: "Carts",
+          component: Carts
+        },
+        {
+          path: "order_form",
+          name: "OrderForm",
+          component: OrderForm
         }
       ]
     }

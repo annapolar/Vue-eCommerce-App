@@ -1,5 +1,5 @@
 <template>
-   <div class="my-5 row justify-content-center">
+   <div class="my-5">
     <form class="col-md-6" @submit.prevent="payOrder">
       <table class="table">
         <thead>
@@ -10,7 +10,7 @@
         <tbody>
           <tr v-for="item in order.products" :key="item.id">
             <td class="align-middle">{{ item.product.title }}</td>
-            <td class="align-middle">{{ item.qty }}/{{ item.product.unit }}</td>
+            <td class="align-middle">{{ item.qty }} {{ item.product.unit }}</td>
             <td class="align-middle text-right">{{ item.final_total }}</td>
           </tr>
         </tbody>
@@ -73,6 +73,7 @@ export default {
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/order/${this.orderId}`;
       this.isLoading = true;
       this.$http.get(api).then(response => {
+        console.log(response.data)
           this.order = response.data.order
         this.isLoading = false;
       });

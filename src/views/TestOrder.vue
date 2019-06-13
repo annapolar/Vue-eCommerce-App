@@ -1,6 +1,13 @@
 <template>
   <div>
     <Spinner v-if="isLoading"/>
+    <router-link to="/carts">
+      <div>
+        <i class="fas fa-shopping-cart"></i>
+        <span>{{carts.length}}</span>
+      </div>
+    </router-link>
+
     <div class="row mt-4">
       <div class="col-md-4 mb-4" v-for="item in products" :key="item.id" v-if="item.is_enabled">
         <div class="card border-0 shadow-sm">
@@ -21,11 +28,19 @@
             </div>
           </div>
           <div class="card-footer d-flex">
-            <button type="button" class="btn btn-outline-secondary btn-sm" @click="getProductInfo(item.id)">
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm"
+              @click="getProductInfo(item.id)"
+            >
               <i class="fas fa-spinner fa-spin" v-if="loadingItem === item.id"></i>
               View Details
             </button>
-            <button type="button" class="btn btn-outline-danger btn-sm ml-auto" @click="addtoCart(item.id)">
+            <button
+              type="button"
+              class="btn btn-outline-danger btn-sm ml-auto"
+              @click="addtoCart(item.id)"
+            >
               <i class="fas fa-spinner fa-spin" v-if="loadingItem === item.id"></i>
               Add to Cart
             </button>
@@ -35,158 +50,73 @@
     </div>
     <!-- ============== Dialog ================ -->
     <Dialog v-if="showModal" v-bind="dialogScheme">
-      <div slot="header"><h2>{{ productInfo.title }}</h2></div>
+      <div slot="header">
+        <h2>{{ productInfo.title }}</h2>
+      </div>
       <div slot="body">
-        <img class="img-fluid" :src="productInfo.imageUrl" alt="">
+        <img class="img-fluid" :src="productInfo.imageUrl" alt>
         <div class="h6">Original {{ productInfo.origin_price | currency}}</div>
         <div class="h5">Now Sale {{ productInfo.price | currency}}</div>
         <p>{{ productInfo.content }}</p>
         <p>{{ productInfo.description }}</p>
-        <select name="" class="form-control mt-3" v-model="productInfo.num">
-          <option :value="num" v-for="num in 10" :key="num">
-            Select {{num}} {{productInfo.unit}}
-          </option>
+        <select name class="form-control mt-3" v-model="productInfo.num">
+          <option :value="num" v-for="num in 10" :key="num">Select {{num}} {{productInfo.unit}}</option>
         </select>
       </div>
       <div slot="footer">
         <div class="text-muted text-nowrap mr-3">
-          Total: <strong>{{ productInfo.num * productInfo.price || productInfo.price * 1 }}</strong>
+          Total:
+          <strong>{{ productInfo.num * productInfo.price || productInfo.price * 1 }}</strong>
         </div>
         <button type="button" class="btn btn-outline-secondary" @click="closeDialog">Go Back</button>
-        <button type="button" class="btn btn-primary" @click="addtoCart(productInfo.id, productInfo.num)">Buy Now</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          @click="addtoCart(productInfo.id, productInfo.num)"
+        >Buy Now</button>
       </div>
     </Dialog>
-
-    <!-- ================ Shopping Cart List ================ -->
-    <div class="shoppingList" style="max-width:800px; background-color:#f4fcf8; padding:20px;">
-      <h2>Your Bucket Lists</h2>
-      <div class="cartList" v-if="carts.length">
-        <table class="table mt-4">
-          <thead>
-            <tr>
-              <th>Thumbnail</th>
-              <th>Category</th>
-              <th>Product Name</th>
-              <th>Qty</th>
-              <th class="text-right">Price</th>
-              <th class="text-center">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in carts" :key="item.id">
-              <td>
-                <div
-                  style="width:50px; height: 50px; background-size: cover; background-position: center"
-                  :style="{backgroundImage: `url(${item.product.imageUrl})`}"
-                ></div>
-              </td>
-              <td>{{item.product.category}}</td>
-              <td>{{item.product.title}}</td>
-              <td>{{item.qty}}</td>
-              <td class="text-right">{{item.product.price | currency}}</td>
-              <td class="text-center"><button @click="removeCartItem(item.id)"><i class="fas fa-trash"></i></button></td>
-            </tr>
-          </tbody>
-        </table>
-        <h3>Total {{totalPrice | currency}}</h3>
-        <h3 v-if="totalFinalPrice !== totalPrice">Final Total {{totalFinalPrice | currency}}</h3>
-        <div class="input-group mb-3 input-group-sm">
-          <input type="text" class="form-control" placeholder="Your Coupon Code" v-model="couponCode">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" @click="addCouponCode(couponCode)">
-              Apply
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="cartList" v-else>Your Bucket is Empty</div>
-    </div> 
-
-    <!-- ===================== order form ====================== -->
-    <form class="col-md-6" @submit.prevent="createOrder(form)" style="margin-top:30px; padding:20px; background-color:#eff9ff;">
-        <div class="form-group">
-          <label for="useremail">Email</label>
-          <input type="email" class="form-control" id="useremail" :class="{'is-invalid':errors.has('email')}"
-            name="email" v-model="form.user.email" v-validate="'required|email'">
-             <small class="text-danger" v-if="errors.has('email')">{{ errors.first('email') }}</small>
-        </div>
-
-        <div class="form-group">
-          <label for="username">Name</label>
-          <input type="text" class="form-control" id="username" :class="{'is-invalid':errors.has('name')}"
-            name="name" v-model="form.user.name" v-validate="'required'">
-          <small class="text-danger" v-if="errors.has('name')">{{ errors.first('name') }}</small>
-        </div>
-
-        <div class="form-group">
-          <label for="usertel">Phone Number</label>
-          <input type="tel" class="form-control" id="usertel" :class="{'is-invalid':errors.has('phone')}" 
-            name="phone" v-model="form.user.tel" v-validate="'required'">
-          <small class="text-danger" v-if="errors.has('phone')">{{ errors.first('phone') }}</small>
-        </div>
-
-        <div class="form-group">
-          <label for="useraddress">Address</label>
-          <input type="text" class="form-control" id="useraddress" :class="{'is-invalid':errors.has('address')}" 
-            name="address" v-model="form.user.address" v-validate="'required'">   
-          <small class="text-danger" v-if="errors.has('address')">{{ errors.first('address') }}</small>      
-        </div>
-
-        <div class="form-group">
-          <label for="useraddress">Message</label>
-          <textarea id="usermessage" class="form-control" cols="30" rows="10"
-            name="message" v-model="form.message"></textarea>
-        </div>
-        <div class="text-right">
-          <button class="btn btn-primary">Submit Order</button>
-        </div>
-      </form>
   </div>
 </template>
 
 <script>
-import {mapState, mapActions, mapMutations} from 'vuex'
+import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
   data() {
-    return { 
+    return {
       dialogScheme: {
         maxWidth: 800
-      },  
-      couponCode:'',
-      form: {
-      user: {
-        name: '',
-        email: '',
-        tel: '',
-        address: '',
-      },
-      message: '',
-    },
+      }
     };
   },
   created() {
     this.getProducts();
-    this.getCart();
   },
-  computed:{
-    ...mapState(['isLoading','products','productInfo','loadingItem','showModal','carts']),
-
-    totalPrice(){
-      return this.carts.map(cart => cart.total).reduce((total, current) => total+ current, 0)
-    },
-    totalFinalPrice(){
-      return this.carts.map(cart => cart.final_total).reduce((total, current) => total+ current, 0)
-    }  
+  computed: {
+    ...mapState([
+      "isLoading",
+      "products",
+      "productInfo",
+      "loadingItem",
+      "showModal",
+      "carts"
+    ])
   },
   methods: {
-     ...mapMutations(['LOADING','SHOW_MODAL','LOADITEM','PRODUCTS','PRODUCT_INFO','CARTS','COUPON_CODE','FORM']),
-     ...mapActions(['getProducts','getProductInfo','closeDialog','getCart','removeCartItem','addCouponCode','createOrder']),
+    ...mapMutations([
+      "LOADING",
+      "SHOW_MODAL",
+      "LOADITEM",
+      "PRODUCTS",
+      "PRODUCT_INFO",
+      "CARTS"
+    ]),
+    ...mapActions(["getProducts", "getProductInfo", "closeDialog"]),
 
-     addtoCart(id, qty=1){
-       this.$store.dispatch('addtoCart',{id, qty})
-     }
+    addtoCart(id, qty = 1) {
+      this.$store.dispatch("addtoCart", { id, qty });
+    }
   }
-}
-
+};
 </script>
