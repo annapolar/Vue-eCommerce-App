@@ -7,7 +7,6 @@
         <span>{{carts.length}}</span>
       </div>
     </router-link>
-
     <div class="row mt-4">
       <div class="col-md-4 mb-4" v-for="item in products" :key="item.id" v-if="item.is_enabled">
         <div class="card border-0 shadow-sm">
@@ -39,7 +38,7 @@
             <button
               type="button"
               class="btn btn-outline-danger btn-sm ml-auto"
-              @click="addtoCart(item.id)"
+              @click="addtoCart({id:item.id, qty:1})"
             >
               <i class="fas fa-spinner fa-spin" v-if="loadingItem === item.id"></i>
               Add to Cart
@@ -72,7 +71,7 @@
         <button
           type="button"
           class="btn btn-primary"
-          @click="addtoCart(productInfo.id, productInfo.num)"
+          @click="addtoCart({id:productInfo.id, qty:productInfo.num})"
         >Buy Now</button>
       </div>
     </Dialog>
@@ -80,7 +79,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   data() {
@@ -92,31 +91,21 @@ export default {
   },
   created() {
     this.getProducts();
+    this.getCart();
   },
   computed: {
-    ...mapState([
-      "isLoading",
-      "products",
-      "productInfo",
-      "loadingItem",
-      "showModal",
-      "carts"
-    ])
+    ...mapState(["isLoading", "showModal","loadingItem"]),
+    ...mapState("productsModule",["products", "productInfo"]),
+    ...mapState("cartsModule",["carts"])
   },
   methods: {
-    ...mapMutations([
-      "LOADING",
-      "SHOW_MODAL",
-      "LOADITEM",
-      "PRODUCTS",
-      "PRODUCT_INFO",
-      "CARTS"
+    ...mapActions("productsModule", [
+      "getProducts",
+      "getProductInfo",
+      "closeDialog",
+      "addtoCart"
     ]),
-    ...mapActions(["getProducts", "getProductInfo", "closeDialog"]),
-
-    addtoCart(id, qty = 1) {
-      this.$store.dispatch("addtoCart", { id, qty });
-    }
+    ...mapActions("cartsModule",["getCart"])
   }
 };
 </script>

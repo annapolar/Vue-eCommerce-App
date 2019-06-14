@@ -50,14 +50,14 @@
     <router-link to="/test_order">
       <button type="button" class="btn btn-outline-secondary">Go Back to Shop</button>
     </router-link>
-    <router-link to="/order_form">
-    <button type="button" class="btn btn-primary">Checkout</button>
+    <router-link to="/checkout">
+      <button type="button" class="btn btn-primary">Checkout</button>
     </router-link>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   data() {
@@ -69,7 +69,8 @@ export default {
     this.getCart();
   },
   computed: {
-    ...mapState(["isLoading", "showModal", "carts"]),
+    ...mapState(["isLoading", "showModal"]),
+    ...mapState("cartsModule", ["carts"]),
 
     totalPrice() {
       return this.carts
@@ -83,8 +84,11 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["LOADING", "SHOW_MODAL", "CARTS", "COUPON_CODE"]),
-    ...mapActions(["getCart", "removeCartItem", "addCouponCode"])
+    ...mapActions("cartsModule", ["getCart", "removeCartItem"]),
+
+    addCouponCode(couponCode) {
+      this.$store.dispatch("cartsModule/addCouponCode", couponCode);
+    }
   }
 };
 </script>

@@ -2,11 +2,11 @@ import Vue from "vue";
 import Router from "vue-router";
 import Login from "./views/Login.vue";
 import Dashboard from "./components/Dashboard.vue";
-import Products from "./views/Products.vue";
+import ProductList from "./views/ProductList.vue";
 import TestOrder from "./views/TestOrder.vue"
-import TestCheckout from "./views/TestCheckout.vue"
+import Payment from "./views/Payment.vue"
 import Carts from "./views/Carts.vue"
-import OrderForm from "./views/OrderForm.vue"
+import Checkout from "./views/Checkout.vue"
 
 Vue.use(Router);
 
@@ -27,9 +27,9 @@ export default new Router({
       component: Dashboard,
       children: [
         {
-          path: "products",
-          name: "products",
-          component: Products,
+          path: "productlist",
+          name: "ProductList",
+          component: ProductList,
           meta: { requiresAuth: true }
         }
       ]
@@ -45,9 +45,9 @@ export default new Router({
           component: TestOrder
         },
         {
-          path: "test_checkout/:orderId",
-          name: "TestCheckut",
-          component: TestCheckout
+          path: "payment/:orderId",
+          name: "Payment",
+          component: Payment
         },
         {
           path: "carts",
@@ -55,9 +55,9 @@ export default new Router({
           component: Carts
         },
         {
-          path: "order_form",
-          name: "OrderForm",
-          component: OrderForm
+          path: "checkout",
+          name: "Checkout",
+          component: Checkout
         }
       ]
     }

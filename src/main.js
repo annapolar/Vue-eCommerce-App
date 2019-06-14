@@ -1,7 +1,7 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
+import store from "./stores/store";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import VeeValidate from 'vee-validate';
@@ -21,14 +21,11 @@ Vue.component('Pagination', Pagination);
 
 axios.defaults.withCredentials = true;
 
-const VUE = new Vue({
+new Vue({
   router,
   store,
-  render: h => h(App)
-})
-
-Vue.$instance = VUE
-VUE.$mount("#app");
+  render: h => h(App),
+}).$mount('#app');
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {

@@ -1,7 +1,7 @@
 <template>
   <form
     class="col-md-6"
-    @submit.prevent="createOrder(form)"
+    @submit.prevent="checkout(form)"
     style="margin-top:30px; padding:20px; background-color:#eff9ff;"
   >
     <div class="form-group">
@@ -95,14 +95,30 @@ export default {
     };
   },
   computed: {
-    ...mapState(["isLoading"])
+    ...mapState("cartsModule", ["carts"]),
+    ...mapMutations("cartsModule", ["CARTS"]),
+    ...mapMutations(["LOADING"])
   },
   methods: {
-    ...mapMutations(["LOADING", "FORM"]),
-    ...mapActions(["createOrder"]),
+    ...mapActions("cartsModule", ["getCart"]),
 
-    addtoCart(id, qty = 1) {
-      this.$store.dispatch("addtoCart", { id, qty });
+    checkout(form) {
+      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/order`;
+      const order = form;
+      this.$validator.validate().then(valid => {
+        if (valid) {
+          this.$http.post(api, { data: order }).then(response => {
+            if (response.data.success) {
+              this.$router.push(`/payment/${response.data.orderId}`);
+            }
+            this.$store.commit("cartsModule/CARTS", []);
+            this.$store.dispatch("cartsModule/getCart");
+            this.$store.commit("LOADING", false);
+          });
+        } else {
+          console.log("not completed");
+        }
+      });
     }
   }
 };

@@ -128,7 +128,6 @@
         <button type="button" class="btn btn-primary" @click="updateProduct">Confirm</button>
       </div>
     </Dialog>
-
     <!-- ============== Pagination ================ -->
     <Pagination 
     v-bind="pagination"

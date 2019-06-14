@@ -12,13 +12,13 @@
         </h6>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <router-link to="/admin/products" class="nav-link">
+            <router-link to="/admin/productlist" class="nav-link">
               <i class="fas fa-box-open"></i>Product List
             </router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/admin/orders" class="nav-link">
-              <i class="fas fa-tags"></i>Orders
+            <router-link to="/admin/orderlist" class="nav-link">
+              <i class="fas fa-tags"></i>Order List
             </router-link>
           </li>
           <li class="nav-item">
