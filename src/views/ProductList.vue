@@ -4,6 +4,7 @@
     <div class="text-right mt-4">
       <button class="btn btn-primary" @click="openDialog(true)">Add Product</button>
     </div>
+    <h4>Product List</h4>
     <table class="table mt-4">
       <thead>
         <tr>
@@ -150,7 +151,6 @@
 </template>
 
 <script>
-import {mapState, mapActions, mapMutations} from 'vuex'
 
 export default {
   data() {

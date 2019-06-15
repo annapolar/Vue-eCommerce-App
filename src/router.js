@@ -3,7 +3,9 @@ import Router from "vue-router";
 import Login from "./views/Login.vue";
 import Dashboard from "./components/Dashboard.vue";
 import ProductList from "./views/ProductList.vue";
-import TestOrder from "./views/TestOrder.vue"
+import OrderList from "./views/OrderList.vue";
+import CouponList from "./views/CouponList.vue";
+import Products from "./views/Products.vue"
 import Payment from "./views/Payment.vue"
 import Carts from "./views/Carts.vue"
 import Checkout from "./views/Checkout.vue"
@@ -31,6 +33,18 @@ export default new Router({
           name: "ProductList",
           component: ProductList,
           meta: { requiresAuth: true }
+        },
+        {
+          path: "orderlist",
+          name: "OrderList",
+          component: OrderList,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: "couponlist",
+          name: "CouponList",
+          component: CouponList,
+          meta: { requiresAuth: true }
         }
       ]
     },
@@ -40,9 +54,9 @@ export default new Router({
       component: Dashboard,
       children: [
         {
-          path: "test_order",
-          name: "TestOrder",
-          component: TestOrder
+          path: "products",
+          name: "Products",
+          component: Products
         },
         {
           path: "payment/:orderId",
