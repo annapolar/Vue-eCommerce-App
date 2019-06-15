@@ -28,14 +28,14 @@
           <td>
             <span class="d-inline-flex">
               <button class="btn btn-outline-primary btn-sm" @click="openDialog(false, item)">Edit</button>
-              <button class="btn btn-outline-danger btn-sm" @click="deleteProduct(item)">Delete</button>
+              <button class="btn btn-outline-danger btn-sm" @click="openDeleteDialog(item)">Delete</button>
             </span>
           </td>
         </tr>
       </tbody>
     </table>
 
-    <!-- ============== Dialog ================ -->
+    <!-- ============== Add & Edit Product Dialog ================ -->
     <Dialog v-if="showModal" v-bind="dialogScheme">
       <div slot="header">
         <h3>Add New Product</h3>
@@ -128,6 +128,18 @@
         <button type="button" class="btn btn-primary" @click="updateProduct">Confirm</button>
       </div>
     </Dialog>
+
+    <!-- ============== Delete Dialog ================ -->
+    <Dialog v-if="showDeleteModal">
+      <div slot="body">
+        Are you sure you want to delete xxx ?
+      </div>
+      <div slot="footer">
+        <button @click="showDeleteModal = false">No, cancle</button>
+        <button @click="deleteProduct()">Yes, delete</button>
+      </div>
+    </Dialog>
+
     <!-- ============== Pagination ================ -->
     <Pagination 
     v-bind="pagination"
@@ -146,6 +158,8 @@ export default {
       products: [],
       pagination: {},
       showModal: false,
+      showDeleteModal: false,
+      deleteItem: "",
       tempProduct: {},
       isNew: false,
       isLoading: false,
@@ -195,16 +209,21 @@ export default {
         }
         this.showModal = true
     },
-    deleteProduct(data){
-      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/admin/product/${data.id}`;
-      this.$http.delete(api, data.id).then(response => {
+    openDeleteDialog(data){
+      this.deleteItem = data.id
+      this.showDeleteModal = true
+    },
+    deleteProduct(){
+      const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/admin/product/${this.deleteItem}`;
+      this.$http.delete(api, this.deleteItem).then(response => {
           if(response.data.success == true){
-              this.products.splice(data,1)
+              this.products.splice(this.deleteItem,1)
               this.$bus.$emit("pushMesssage", response.data.message, "success")
           }else{
               this.$bus.$emit("pushMesssage", response.data.message, "danger")
           }         
-      });  
+      });
+      this.showDeleteModal = false  
     },
     uploadFile(){
         console.log(this)
