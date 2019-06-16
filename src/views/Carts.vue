@@ -33,15 +33,15 @@
           </tr>
         </tbody>
       </table>
-      <h3>Total {{totalPrice | currency}}</h3>
-      <h3 v-if="totalFinalPrice !== totalPrice">Final Total {{totalFinalPrice | currency}}</h3>
+      <h3>Total {{total | currency}}</h3>
+      <h3 v-if="finalTotal !== total">Final Total {{finalTotal | currency}}</h3>
       <div class="input-group mb-3 input-group-sm">
-        <input type="text" class="form-control" placeholder="Your Coupon Code" v-model="couponCode">
+        <input type="text" class="form-control" placeholder="Your Coupon Code" v-model="tempCouponCode">
         <div class="input-group-append">
           <button
             class="btn btn-outline-secondary"
             type="button"
-            @click="addCouponCode(couponCode)"
+            @click="applyCouponCode(tempCouponCode)"
           >Apply</button>
         </div>
       </div>
@@ -57,38 +57,28 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
-  data() {
-    return {
-      couponCode: ""
-    };
-  },
   created() {
     this.getCart();
   },
   computed: {
     ...mapState(["isLoading", "showModal"]),
     ...mapState("cartsModule", ["carts"]),
+    ...mapGetters("cartsModule", ["total", "finalTotal"]),
 
-    totalPrice() {
-      return this.carts
-        .map(cart => cart.total)
-        .reduce((total, current) => total + current, 0);
-    },
-    totalFinalPrice() {
-      return this.carts
-        .map(cart => cart.final_total)
-        .reduce((total, current) => total + current, 0);
+    tempCouponCode:{
+      get(){
+        return this.$store.state.cartsModule.tempCouponCode
+      },
+      set(value){
+        this.$store.commit("cartsModule/TEMP_COUPON_CODE", value)
+      }
     }
   },
   methods: {
-    ...mapActions("cartsModule", ["getCart", "removeCartItem"]),
-
-    addCouponCode(couponCode) {
-      this.$store.dispatch("cartsModule/addCouponCode", couponCode);
-    }
+    ...mapActions("cartsModule", ["getCart", "removeCartItem","applyCouponCode"])
   }
 };
 </script>

@@ -20,16 +20,16 @@ export default {
     getProducts(context) {
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/products`;
       context.commit("LOADING", true, { root: true });
-      axios.get(api).then(response => {
-        context.commit("PRODUCTS", response.data.products);
+      axios.get(api).then(res => {
+        context.commit("PRODUCTS", res.data.products);
         context.commit("LOADING", false, { root: true });
       });
     },
     getProductInfo(context, id) {
       const api = `${process.env.VUE_APP_API}/api/${process.env.VUE_APP_USER}/product/${id}`;
       context.commit("LOADITEM", id, { root: true });
-      axios.get(api).then(response => {
-        context.commit("PRODUCT_INFO", response.data.product);
+      axios.get(api).then(res => {
+        context.commit("PRODUCT_INFO", res.data.product);
         context.commit("SHOW_MODAL", true, { root: true });
         context.commit("LOADITEM", "", { root: true });
       });
@@ -45,7 +45,7 @@ export default {
         product_id: id,
         qty
       };
-      axios.post(api, { data: cart }).then(response => {
+      axios.post(api, { data: cart }).then(res => {
         context.commit("LOADITEM", "",{ root: true });
         context.dispatch("cartsModule/getCart", {}, { root: true });
         context.commit("SHOW_MODAL", false, { root: true });
