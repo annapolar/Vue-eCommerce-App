@@ -1,0 +1,21 @@
+$green-deep:      #589C0E;
+$green-mid:       #6AAF1F;
+$brown:           #D9A345;
+$red:             #CF3913;
+$gray-deep:       #212121;
+$gray-mid:        #747878;
+$gray-light:      #B8BCBC;
+$bluegray-deep:   #658091;
+$bluegray-mid:    #AEC2C6;
+$bluegray-light:  #D0D7D4;
+$bluegray-shallow:#E0E5E6;
+
+$primary:       $green-mid !default;
+$secondary:     $brown !default;
+$success:       $green-mid !default;
+$info:          $cyan !default;
+$warning:       $red !default;
+$danger:        $red !default;
+$button:        $green-deep !default;
+$link:          $green-deep !default;
+$dark:          $gray-deep !default;

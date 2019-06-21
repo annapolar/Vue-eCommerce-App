@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css?family=Raleway:400,500,600,700&display=swap");
+@import url("https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css");
+@import "./variables";
+@import "./reset";
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  font-family: 'Raleway', sans-serif;
+  color: $dark;
+}
+@mixin size($w, $h: $w) {
+  width: $w;
+  height: $h;
+}
+@mixin flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Typography
+h1{
+    font-weight: 400;
+    font-size:40px;
+    line-height: 40px;
+}
+h2{
+    font-weight: 600;
+    font-size:30px;
+    line-height: 40px;
+}
+h3{
+    font-weight: 500;
+    font-size:26px;
+    line-height: 26px;
+}
+h4{
+    font-weight: 700;
+    font-size:22px;
+    line-height: 22px;
+}
+h5{
+    font-weight: 600;
+    font-size:18px;
+    line-height: 18px;
+}
+h6{
+    font-weight: 600;
+    font-size:14px;
+    line-height: 14px;
+}
+p{
+    font-weight: 400;
+    font-size:16px;
+    line-height: 30px;
+}
+small{
+    font-weight: 400;
+    font-size:12px;
+    line-height: 18px;
+    color: $gray-mid;
+}
