@@ -21,8 +21,10 @@
             </h5>
             <p class="card-text">{{ item.content }}</p>
             <div class="d-flex justify-content-between align-items-baseline">
-              <div class="h5" v-if="!item.price">{{ item.origin_price | currency}}</div>
-              <div class="h6" v-if="item.price">Original {{ item.origin_price | currency}}</div>
+              <div>    
+                <div class="h6" v-if="item.origin_price!= 0">Original {{ item.origin_price | currency}}</div>
+                <div class="h6" v-else>Original {{ item.price | currency}}</div> 
+              </div>
               <div class="h5" v-if="item.price">Now Sale {{ item.price | currency}}</div>
             </div>
           </div>
