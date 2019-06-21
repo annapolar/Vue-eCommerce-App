@@ -6,7 +6,6 @@
 
 <style lang="scss">
 @import "./styles/bootstrap_custom";
-@import "./styles/common";
 
 #app {
   font-family: 'Raleway', sans-serif;
