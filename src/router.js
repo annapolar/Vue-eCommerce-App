@@ -10,6 +10,9 @@ import Payment from "./views/Payment.vue"
 import Carts from "./views/Carts.vue"
 import Checkout from "./views/Checkout.vue"
 
+import Layout from "./_FrontStage/components/Layout.vue"
+import NewProducts from "./_FrontStage/views/Products.vue"
+
 Vue.use(Router);
 
 export default new Router({
@@ -73,6 +76,18 @@ export default new Router({
           name: "Checkout",
           component: Checkout
         }
+      ]
+    },
+    {
+      path:"/",
+      name:"layout",
+      component: Layout,
+      children:[
+        {
+          path: "newproducts",
+          name: "NewProducts",
+          component: NewProducts
+        },
       ]
     }
   ]

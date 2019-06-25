@@ -10,6 +10,7 @@ import currencyFilter from "./filters/currency";
 import Dialog from "./components/Dialog";
 import Spinner from "./components/Spinner"
 import Pagination from "./components/Pagination"
+import Button from "./components/Button"
 
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
@@ -18,8 +19,11 @@ Vue.filter('currency', currencyFilter);
 Vue.component('Dialog', Dialog);
 Vue.component('Spinner', Spinner);
 Vue.component('Pagination', Pagination);
+Vue.component('Button', Button);
 
 axios.defaults.withCredentials = true;
+
+Vue.config.ignoredElements = [/^ion-/]
 
 new Vue({
   router,

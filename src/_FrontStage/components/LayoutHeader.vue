@@ -9,7 +9,9 @@
         <li class="active">Home</li>
         <li>Shop</li>
       </ul>
-      <div class="brand-logo"></div>
+      <div class="brand-logo">
+        <img src="~@/assets/logo.svg" alt="logo">
+      </div>
       <ul class="menu-right">
         <li>Blog</li>
         <li>About</li>
@@ -53,12 +55,9 @@ export default {};
     ul {
       display: flex;
       li {
-        font-size: 14px;
-        font-weight: 500;
+        @include linkStyle(14px, 500);
         padding: 25px;
         color: $gray-mid;
-        cursor: pointer;
-        text-transform: uppercase;
         &.active {
           color: var(--primary-deep);
         }
@@ -70,9 +69,11 @@ export default {};
 
     .brand-logo {
       @include size(307px, 23px);
-      background: url("../../assets/logo.svg") no-repeat center center;
-      background-size: contain;
       margin: 0 85px;
+      img {
+        width: 100%;
+        height: auto;
+      }
     }
 
     .cart-icon-wrap {

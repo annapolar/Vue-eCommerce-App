@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css?family=Raleway:400,500,600,700&display=swap");
-// @import url("https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css");
 @import "./variables";
 @import "./reset";
 
@@ -20,6 +18,19 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+@mixin linkStyle($size, $weight, $transform: uppercase) {
+  cursor: pointer;
+  transition: 0.5s;
+  font-size: $size;
+  font-weight: $weight;
+  text-transform: $transform;
+}
+@mixin fontStyle($size, $weight, $line-height, $transform: uppercase) {
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line-height;
+  text-transform: $transform;
 }
 
 // Typography

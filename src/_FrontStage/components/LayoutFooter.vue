@@ -33,7 +33,9 @@
       </div>
       <div class="footer-right">
         <div class="footer-section">
-          <div class="footer-logo"></div>
+          <div class="footer-logo">
+            <img src="~@/assets/logo-footer.svg" alt="footer-logo">
+          </div>
           <div
             class="footer-description"
           >In the tumultuous business of cutting-in and attending to a whale, there is much running backwards and forwards among the crew. Now hands are wanted here, and then again hands are wanted there. There is no staying in any one place.</div>
@@ -75,10 +77,9 @@ export default {};
 
         ul {
           li {
-            font-size: 14px;
+            @include linkStyle(14px, 400, normal);
             line-height: 2;
             color: $gray-light;
-            cursor: pointer;
 
             &:hover {
               color: var(--primary);
@@ -95,10 +96,11 @@ export default {};
 
         .footer-logo {
           @include size(287px, 22px);
-          background: url("../../assets/logo-footer.svg") no-repeat center
-            center;
-          background-size: contain;
           margin-bottom: 25px;
+          img{
+            width:100%;
+            height:auto;
+          }
         }
 
         .footer-description {
