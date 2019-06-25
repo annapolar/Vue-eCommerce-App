@@ -18,3 +18,11 @@ $danger:        $red !default;
 $button:        $green-deep !default;
 $link:          $green-deep !default;
 $dark:          $gray-deep !default;
+
+:root{
+    --primary: #6AAF1F;
+    --primary-deep: #589C0E;
+    --secondary: #D9A345;
+    --button: #589C0E;
+    --link: #589C0E;
+}
