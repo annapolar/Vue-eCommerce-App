@@ -1,6 +1,5 @@
 <template>
   <div class="header-wrap">
-    <div class="header-bar"></div>
     <div class="header-container">
       <div class="burger-menu">
         <ion-icon name="menu"></ion-icon>
@@ -19,7 +18,7 @@
       <div class="cart-icon-wrap">
         <div class="cart-icon">
           <ion-icon name="cart"/>
-          <span class="badge">4</span>
+          <span class="badge">{{carts.length}}</span>
         </div>
       </div>
     </div>
@@ -27,7 +26,12 @@
 </template>
 
 <script>
-export default {};
+import { mapState } from "vuex";
+export default {
+  computed: {
+    ...mapState("cartsModule", ["carts"])
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -35,16 +39,11 @@ export default {};
   width: 100%;
   background-color: #fff;
 
-  .header-bar {
-    @include size(100%, 35px);
-    background-color: var(--primary-deep);
-  }
-
   .header-container {
     position: relative;
     margin: 0 auto;
     @include flexCenter;
-    @include size(100%, 135px);
+    @include size(100%, 100px);
     max-width: 1140px;
     padding-right: 50px;
 
@@ -129,12 +128,8 @@ export default {};
 }
 @media only screen and (max-width: 769px) {
   .header-wrap {
-    .header-bar {
-      @include size(100%, 25px);
-    }
 
     .header-container {
-      @include size(100%, 100px);
       ul {
         li {
           font-size: 13px;

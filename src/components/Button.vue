@@ -1,7 +1,7 @@
 <template>
   <div>
     <div :class="buttonStyle" class="button-common">
-      <button :class="buttonSize" :style="fullWidth? 'width:100%' : ''">{{content}}</button>
+      <button :class="buttonSize" :style="fullWidth? 'width:100%' : ''" @click="clickEvent">{{content}}</button>
     </div>
   </div>
 </template>
@@ -32,6 +32,11 @@ export default {
         case "secondary":
           return "button-secondary";
       }
+    }
+  },
+  methods:{
+    clickEvent(){
+      this.$emit("buttonEvent")
     }
   }
 };

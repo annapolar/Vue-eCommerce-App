@@ -1,18 +1,6 @@
 <template>
   <div class="products-wrap">
-    <picture>
-      <img src="~@/assets/banner.jpg" alt="banner">
-    </picture>
-    <div class="category">
-      <ul>
-        <li class="active">All</li>
-        <li>Living Room</li>
-        <li>Bedroom</li>
-        <li>Kitchen</li>
-        <li>modern chairs</li>
-        <li>Styling Lamp</li>
-      </ul>
-    </div>
+    <Category/>
     <div class="filter-wrap"></div>
     <div class="cards-wrap">
       <div class="card-product" v-for="item in productActive" :key="item.id">
@@ -30,7 +18,7 @@
           <span class="current-price" v-if="item.price">{{ item.price | currency}}</span>
         </div>
         <div class="button-center">
-          <Button v-bind="buttonScheme" @click="addtoCart({id:item.id, qty:1})"/>
+          <Button v-bind="buttonScheme" @buttonEvent="addtoCart({id:item.id, qty:1})"/>
         </div>
       </div>
     </div>
@@ -39,6 +27,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import Category from "../components/Category";
 
 export default {
   data() {
@@ -51,6 +40,9 @@ export default {
         size: "S"
       }
     };
+  },
+  components: {
+    Category
   },
   created() {
     this.getProducts();
@@ -81,33 +73,6 @@ export default {
 
 <style lang="scss" scoped>
 .products-wrap {
-  picture {
-    img {
-      width: 100%;
-      height: auto;
-    }
-  }
-  .category {
-    background-color: var(--category-bg);
-    display: flex;
-    justify-content: center;
-
-    ul {
-      display: flex;
-      li {
-        padding: 24px 44px;
-        @include linkStyle(14px, 500);
-        color: var(--category-font);
-
-        &:hover {
-          background-color: var(--category-active);
-        }
-        &.active {
-          background-color: var(--category-active);
-        }
-      }
-    }
-  }
   .cards-wrap {
     width: 100%;
     max-width: 1140px;
@@ -118,7 +83,7 @@ export default {
     .card-product {
       width: 25%;
       float: left;
-      padding: 0 15px;
+      padding: 0 10px;
       margin-bottom: 65px;
 
       .item-img {
@@ -163,14 +128,6 @@ export default {
 }
 @media only screen and (max-width: 1080px) {
   .products-wrap {
-    .category {
-      ul {
-        li {
-          padding: 20px 30px;
-          @include linkStyle(14px, 500);
-        }
-      }
-    }
     .cards-wrap {
       .card-product {
         width: 33.333%;
@@ -180,14 +137,6 @@ export default {
 }
 @media only screen and (max-width: 769px) {
   .products-wrap {
-    .category {
-      ul {
-        li {
-          padding: 18px 20px;
-          @include linkStyle(12px, 500);
-        }
-      }
-    }
     .cards-wrap {
       .card-product {
         width: 50%;
@@ -197,15 +146,6 @@ export default {
 }
 @media only screen and (max-width: 580px) {
   .products-wrap {
-    .category {
-      ul {
-        flex-wrap: wrap;
-        li {
-          padding: 18px 14px;
-          @include linkStyle(11px, 500);
-        }
-      }
-    }
     .cards-wrap {
       .card-product {
         width: 50%;
