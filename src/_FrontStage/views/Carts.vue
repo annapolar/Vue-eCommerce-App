@@ -4,7 +4,7 @@
     <div class="banner">Carts</div>
     <div class="cart-wrap" v-if="carts.length">
       <div class="cart-items">
-        <h4>CART ITEMS</h4>
+        <h4>Cart Items</h4>
         <table>
           <thead>
             <tr>
@@ -36,7 +36,7 @@
         </table>
       </div>
       <div class="cart-total">
-        <h4 class="cart-total-title">CART TOTALS</h4>
+        <h4 class="box-title">Cart Totals</h4>
         <div class="price-box">
           <div class="box-subtotal space-between">
             <h5>Subtotal</h5>
@@ -55,7 +55,7 @@
             <h2>{{finalTotal | currency}}</h2>
           </div>
         </div>
-        <router-link to="/newpayment">
+        <router-link to="/newcheckout">
           <Button v-bind="checkoutBtnScheme" class="checkout-btn"/>
         </router-link>
       </div>
@@ -63,7 +63,12 @@
     <div class="cart-empty-wrap" v-else>
       <div class="cart-empty">
         <ion-icon name="basket"></ion-icon>
-        <h4>Your Bucket is Empty</h4>
+        <h2>your bucket is currently empty.</h2>
+        <small>
+          Before proceed to checkout you must add some products to your shopping cart.
+          You will find a lot of interesting products on our "Shop" page.
+        </small>
+        <Button v-bind="backBtnScheme" class="back-shop-btn"/>
       </div>
     </div>
   </div>
@@ -79,6 +84,10 @@ export default {
         content: "Checkout",
         fullWidth: true,
         btnStyle: "primary"
+      },
+      backBtnScheme: {
+        content: "Back to Shop",
+        btnStyle: "primary"
       }
     };
   },
@@ -86,7 +95,7 @@ export default {
     this.getCart();
   },
   computed: {
-    ...mapState(["isLoading", "showModal"]),
+    ...mapState(["isLoading"]),
     ...mapState("cartsModule", ["carts"]),
     ...mapGetters("cartsModule", ["total", "finalTotal"]),
 
@@ -116,20 +125,23 @@ export default {
   background-color: $dark;
   color: #fff;
   font-size: 20px;
-  margin-bottom: 40px;
+  margin-bottom: 70px;
 }
 .cart-wrap {
   width: 100%;
   max-width: 1140px;
   display: flex;
+  align-items: flex-start;
   margin: 0 auto;
   padding-bottom: 100px;
   padding: 0 20px;
+  h4 {
+    text-transform: uppercase;
+  }
 
   .cart-items {
     width: 60%;
     margin-right: 44px;
-    margin-top: 30px;
 
     table {
       width: 100%;
@@ -185,12 +197,13 @@ export default {
   }
   .cart-total {
     width: 40%;
-    max-width: 768px;
+    max-width: 700px;
     background-color: #f8f8f8;
     padding: 30px;
     margin-bottom: 50px;
+    margin-top: -30px;
 
-    .cart-total-title {
+    .box-title {
       text-align: center;
       margin: 10px 0 30px 0;
     }
@@ -258,9 +271,15 @@ export default {
 
   .cart-empty {
     color: $gray-light;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
     ion-icon {
-      width: 100%;
-      font-size: 60px;
+      font-size: 100px;
+    }
+
+    .back-shop-btn {
+      margin: 40px 0;
     }
   }
 }
@@ -268,15 +287,20 @@ export default {
 @media only screen and (max-width: 1080px) {
   .cart-wrap {
     flex-direction: column;
+    padding: 0 30px;
+
     .cart-items {
       width: 100%;
-      padding: 0 30px;
       margin-right: 0;
       margin-bottom: 40px;
+      table {
+        margin-bottom: 40px;
+      }
     }
     .cart-total {
       width: 100%;
-      .cart-total-title {
+
+      .box-title {
         text-align: left;
       }
     }

@@ -42,29 +42,49 @@ body {
   text-transform: $transform;
 }
 
-input {
-  transition: all 0.5s ease-out;
-
-  &:focus {
-    border: 1px solid var(--primary);
+.form-section {
+  margin-bottom: 20px;
+  label {
+    @include fontStyle(14px, 500, 14px, normal);
+    color: $gray-mid;
+    margin-bottom: 8px;
   }
-  &::placeholder {
-    /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: $gray-light;
-    opacity: 1; /* Firefox */
-    font-weight: 400;
+  input {
+    height: 48px;
   }
+  input,
+  textarea {
+    width: 100%;
+    @include fontStyle(16px, 500, 16px, normal);
+    padding: 18px;
+    border: 1px solid $bluegray-light;
 
-  &::-ms-input-placeholder {
-    /* Internet Explorer 10-11 */
-    color: $gray-light;
-    font-weight: 400;
+    &:focus {
+      border: 1px solid var(--primary);
+    }
+    &::placeholder {
+      /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: $gray-light;
+      opacity: 1; /* Firefox */
+      font-weight: 400;
+    }
+
+    &::-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: $gray-light;
+      font-weight: 400;
+    }
+
+    &::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: $gray-light;
+      font-weight: 400;
+    }
   }
-
-  &::-ms-input-placeholder {
-    /* Microsoft Edge */
-    color: $gray-light;
-    font-weight: 400;
+  .star-sight {
+    @include fontStyle(20px, 700, 20px);
+    color: $red;
+    padding: 0 5px;
   }
 }
 
