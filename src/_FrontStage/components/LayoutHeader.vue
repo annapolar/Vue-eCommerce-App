@@ -15,21 +15,44 @@
         <li>Blog</li>
         <li>About</li>
       </ul>
-      <div class="cart-icon-wrap">
+      <div class="cart-icon-wrap" @click="isCartOpen=!isCartOpen">
         <div class="cart-icon">
           <ion-icon name="cart"/>
           <span class="badge">{{carts.length}}</span>
         </div>
       </div>
     </div>
+
+    <CartPreview
+      :class="isCartOpen ? 'cart-open': ''"
+      class="cart-preview"
+      @closePreview="closePreview"
+    />
+    <div class="mask" v-if="isCartOpen"></div>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import CartPreview from "./CartPreview";
+
 export default {
+  data() {
+    return {
+      isCartOpen: false
+    };
+  },
   computed: {
     ...mapState("cartsModule", ["carts"])
+  },
+  components: { CartPreview },
+  methods: {
+    cartPreview() {
+      this.isCartOpen = true;
+    },
+    closePreview() {
+      this.isCartOpen = false;
+    }
   }
 };
 </script>
@@ -39,6 +62,29 @@ export default {
   width: 100%;
   background-color: #fff;
 
+  .cart-preview {
+    overflow: auto;
+    transform: translateX(340px);
+    transition: all 0.5s ease-out;
+    z-index: 2000;
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    &.cart-open {
+      transform: translateX(0);
+    }
+  }
+  .mask {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(#000, 0.7);
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    animation: fadeIn 0.6s ease both;
+  }
   .header-container {
     position: relative;
     margin: 0 auto;
@@ -128,7 +174,6 @@ export default {
 }
 @media only screen and (max-width: 769px) {
   .header-wrap {
-
     .header-container {
       ul {
         li {

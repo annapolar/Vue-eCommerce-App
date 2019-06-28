@@ -10,6 +10,15 @@ body {
   box-sizing: border-box;
 }
 
+@keyframes fadeIn{
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
 @mixin size($w, $h: $w) {
   width: $w;
   height: $h;
