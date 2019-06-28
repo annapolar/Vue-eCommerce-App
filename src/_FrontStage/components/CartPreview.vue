@@ -18,16 +18,16 @@
           <div class="item-thumbnail" :style="{backgroundImage: `url(${item.product.imageUrl})`}"></div>
           <div class="item-info">
             <div class="item-name">{{item.product.title}}</div>
-            <div class="item-subtotal">
+            <div class="item-price">
               <span class="item-qty">
-                <ion-icon name="close"/>
                 {{item.qty}}
+                <ion-icon name="close"/>
               </span>
               {{item.product.price | currency}}
             </div>
           </div>
           <div class="remove-item" @click="removeCartItem(item.id)">
-            <ion-icon name="close-circle"></ion-icon>
+            <ion-icon name="close-circle"/>
           </div>
         </li>
       </ul>
@@ -36,10 +36,13 @@
         <div class="all-item-substotal">{{total | currency}}</div>
       </div>
       <div class="button-section">
-        <Button v-bind="viewcartScheme" class="viewcart-btn"/>
+        <router-link to="/newcarts">
+          <Button v-bind="viewcartScheme" class="viewcart-btn" @buttonEvent="toCarts"/>
+        </router-link>
         <Button v-bind="checkoutScheme"/>
       </div>
     </div>
+    <div class="cart-empty" v-else>Your Bucket is Empty</div>
   </div>
 </template>
 
@@ -73,6 +76,9 @@ export default {
     ]),
     closePreview() {
       this.$emit("closePreview");
+    },
+    toCarts() {
+      this.$emit("toCarts");
     }
   }
 };
@@ -172,7 +178,7 @@ export default {
           .item-name {
             @include fontStyle(12px, 500, 1.3);
           }
-          .item-subtotal {
+          .item-price {
             @include fontStyle(14px, 600, 15px);
             color: var(--primary);
 
@@ -215,6 +221,12 @@ export default {
         margin-bottom: 10px;
       }
     }
+  }
+  .cart-empty {
+    @include fontStyle(16px, 400, 16px, normal);
+    text-align: center;
+    margin-top: 50px;
+    letter-spacing: 1.2px;
   }
 }
 </style>

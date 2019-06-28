@@ -54,6 +54,7 @@ export default {};
   background-color: $dark;
   @include size(100%);
   padding: 60px 0;
+  margin-top: 40px;
 
   .footer-container {
     width: 100%;
@@ -97,9 +98,9 @@ export default {};
         .footer-logo {
           @include size(287px, 22px);
           margin-bottom: 25px;
-          img{
-            width:100%;
-            height:auto;
+          img {
+            width: 100%;
+            height: auto;
           }
         }
 

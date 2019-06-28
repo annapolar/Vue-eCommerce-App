@@ -10,11 +10,11 @@ body {
   box-sizing: border-box;
 }
 
-@keyframes fadeIn{
-  0%{
+@keyframes fadeIn {
+  0% {
     opacity: 0;
   }
-  100%{
+  100% {
     opacity: 1;
   }
 }
@@ -40,6 +40,32 @@ body {
   font-weight: $weight;
   line-height: $line-height;
   text-transform: $transform;
+}
+
+input {
+  transition: all 0.5s ease-out;
+
+  &:focus {
+    border: 1px solid var(--primary);
+  }
+  &::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: $gray-light;
+    opacity: 1; /* Firefox */
+    font-weight: 400;
+  }
+
+  &::-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: $gray-light;
+    font-weight: 400;
+  }
+
+  &::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: $gray-light;
+    font-weight: 400;
+  }
 }
 
 // Typography

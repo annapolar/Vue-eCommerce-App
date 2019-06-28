@@ -6,7 +6,9 @@
       </div>
       <ul class="menu-left">
         <li class="active">Home</li>
-        <li>Shop</li>
+        <router-link to="/newproducts">
+          <li>Shop</li>
+        </router-link>
       </ul>
       <div class="brand-logo">
         <img src="~@/assets/logo.svg" alt="logo">
@@ -18,7 +20,7 @@
       <div class="cart-icon-wrap" @click="isCartOpen=!isCartOpen">
         <div class="cart-icon">
           <ion-icon name="cart"/>
-          <span class="badge">{{carts.length}}</span>
+          <span class="badge" v-if="carts.length">{{carts.length}}</span>
         </div>
       </div>
     </div>
@@ -27,6 +29,7 @@
       :class="isCartOpen ? 'cart-open': ''"
       class="cart-preview"
       @closePreview="closePreview"
+      @toCarts="toCarts"
     />
     <div class="mask" v-if="isCartOpen"></div>
   </div>
@@ -52,6 +55,10 @@ export default {
     },
     closePreview() {
       this.isCartOpen = false;
+    },
+    toCarts() {
+      this.isCartOpen = false;
+      this.$router.push(`/payment/${res.data.orderId}`);
     }
   }
 };

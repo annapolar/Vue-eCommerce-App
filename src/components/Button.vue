@@ -1,7 +1,11 @@
 <template>
   <div>
     <div :class="buttonStyle" class="button-common">
-      <button :class="buttonSize" :style="fullWidth? 'width:100%' : ''" @click="clickEvent">{{content}}</button>
+      <button
+        :class="buttonSize"
+        :style="fullWidth? 'width:100%' : ''"
+        @click="clickEvent"
+      >{{content}}</button>
     </div>
   </div>
 </template>
@@ -25,18 +29,20 @@ export default {
           return "small";
       }
     },
-    buttonStyle(){
+    buttonStyle() {
       switch (this.btnStyle) {
         case "primary":
           return "button-primary";
         case "secondary":
           return "button-secondary";
+        case "secondary-w":
+          return "button-secondary-white";
       }
     }
   },
-  methods:{
-    clickEvent(){
-      this.$emit("buttonEvent")
+  methods: {
+    clickEvent() {
+      this.$emit("buttonEvent");
     }
   }
 };
@@ -48,6 +54,7 @@ export default {
     padding: 0 10px;
     transition: 0.5s;
     border: 0;
+    letter-spacing: 1.2px;
 
     &.large {
       height: 52px;
@@ -80,12 +87,24 @@ export default {
 .button-secondary {
   button {
     border: 1px solid $dark;
-    background-color: #fff;
+    color: $dark;
+    background-color: transparent;
 
     &:hover {
       background-color: var(--primary-deep);
       color: #fff;
       border: 1px solid transparent;
+    }
+  }
+}
+.button-secondary-white {
+  button {
+    border: 1px solid #fff;
+    color: #fff;
+    background-color: transparent;
+
+    &:hover {
+      background-color: rgba(#fff,0.3);
     }
   }
 }
