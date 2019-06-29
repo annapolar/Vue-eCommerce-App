@@ -54,7 +54,6 @@ export default {};
   background-color: $dark;
   @include size(100%);
   padding: 60px 0;
-  margin-top: 40px;
 
   .footer-container {
     width: 100%;

@@ -142,7 +142,7 @@ export default {
   display: flex;
   align-items: flex-start;
   margin: 0 auto;
-  padding-bottom: 100px;
+  margin-bottom: 100px;
   padding: 0 20px;
 
   h4 {
@@ -184,7 +184,6 @@ export default {
     max-width: 700px;
     background-color: #f8f8f8;
     padding: 30px;
-    margin-bottom: 50px;
     margin-top: -30px;
 
     .box-title {

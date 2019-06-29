@@ -133,7 +133,7 @@ export default {
   display: flex;
   align-items: flex-start;
   margin: 0 auto;
-  padding-bottom: 100px;
+  margin-bottom: 100px;
   padding: 0 20px;
   h4 {
     text-transform: uppercase;
@@ -165,7 +165,7 @@ export default {
           td {
             padding: 20px 8px;
             vertical-align: middle;
-            @include fontStyle(14px, 400, 1.3);
+            @include fontStyle(14px, 400, 1.3, normal);
 
             &.item-subtotal {
               @include fontStyle(16px, 600, 1.3);
@@ -200,7 +200,6 @@ export default {
     max-width: 700px;
     background-color: #f8f8f8;
     padding: 30px;
-    margin-bottom: 50px;
     margin-top: -30px;
 
     .box-title {
@@ -229,7 +228,7 @@ export default {
         margin: 30px 0 10px 0;
 
         input {
-          @include fontStyle(16px, 500, 16px, normal);       
+          @include fontStyle(16px, 500, 16px, normal);
           color: var(--primary-deep);
           margin-right: -1px;
         }

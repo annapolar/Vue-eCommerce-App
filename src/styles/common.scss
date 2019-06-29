@@ -42,7 +42,7 @@ body {
   text-transform: $transform;
 }
 
-// input & form 
+// input & form
 .form-section {
   margin-bottom: 20px;
 }
@@ -94,43 +94,27 @@ textarea {
 
 // Typography
 h1 {
-  font-weight: 400;
-  font-size: 40px;
-  line-height: 40px;
+  @include fontStyle(38px, 400, 38px, normal);
 }
 h2 {
-  font-weight: 600;
-  font-size: 30px;
-  line-height: 40px;
+  @include fontStyle(30px, 600, 30px);
 }
 h3 {
-  font-weight: 500;
-  font-size: 26px;
-  line-height: 26px;
+  @include fontStyle(26px, 500, 26px, normal);
 }
 h4 {
-  font-weight: 700;
-  font-size: 22px;
-  line-height: 22px;
+  @include fontStyle(22px, 700, 22px);
 }
 h5 {
-  font-weight: 600;
-  font-size: 18px;
-  line-height: 18px;
+  @include fontStyle(18px, 600, 18px);
 }
 h6 {
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 14px;
+  @include fontStyle(14px, 600, 14px);
 }
 p {
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 30px;
+  @include fontStyle(16px, 400, 16px, normal);
 }
 small {
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 18px;
+  @include fontStyle(12px, 400, 12px, normal);
   color: $gray-mid;
 }
