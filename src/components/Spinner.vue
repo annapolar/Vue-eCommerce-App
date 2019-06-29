@@ -1,6 +1,6 @@
 <template>
   <div class="spin-wrap">
-    <i class="fas fa-circle-notch fa-spin"></i>
+    <div class="loader"></div>
   </div>
 </template>
 
@@ -16,9 +16,25 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  i {
-    font-size: 36px;
-    color: #007bff;
+
+  .loader {
+    border: 3px solid transparent;
+    border-top: 3px solid var(--secondary);
+    border-bottom: 3px solid var(--secondary);
+    border-left: 3px solid var(--secondary);
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 }
 </style>

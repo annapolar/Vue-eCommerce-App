@@ -91,9 +91,8 @@ export default {
     background-color: transparent;
 
     &:hover {
-      background-color: var(--primary-deep);
-      color: #fff;
-      border: 1px solid transparent;
+      border: 1px solid var(--primary-deep);
+      color: var(--primary-deep);
     }
   }
 }
@@ -104,7 +103,7 @@ export default {
     background-color: transparent;
 
     &:hover {
-      background-color: rgba(#fff,0.3);
+      background-color: rgba(#fff, 0.3);
     }
   }
 }
