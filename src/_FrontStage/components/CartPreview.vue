@@ -36,10 +36,7 @@
         <div class="all-item-substotal">{{total | currency}}</div>
       </div>
       <div class="button-section">
-        <router-link to="/newcarts">
-          <Button v-bind="viewcartScheme" class="viewcart-btn" @buttonEvent="toCarts"/>
-        </router-link>
-        <Button v-bind="checkoutScheme"/>
+        <Button v-bind="viewcartScheme" class="viewcart-btn" @buttonEvent="toCarts"/>
       </div>
     </div>
     <div class="cart-empty" v-else>Your Bucket is Empty</div>
@@ -54,10 +51,6 @@ export default {
     return {
       viewcartScheme: {
         content: "view cart",
-        fullWidth: true
-      },
-      checkoutScheme: {
-        content: "checkout",
         fullWidth: true,
         btnStyle: "primary"
       }

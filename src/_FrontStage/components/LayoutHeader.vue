@@ -58,7 +58,7 @@ export default {
     },
     toCarts() {
       this.isCartOpen = false;
-      this.$router.push(`/payment/${res.data.orderId}`);
+      this.$router.push(`/newcarts`);
     }
   }
 };
