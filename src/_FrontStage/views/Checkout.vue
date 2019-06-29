@@ -138,7 +138,7 @@ export default {
         if (valid) {
           this.$http.post(api, { data: order }).then(res => {
             if (res.data.success) {
-              this.$router.push(`/payment/${res.data.orderId}`);
+              this.$router.push(`/newpayment/${res.data.orderId}`);
             }
             this.$store.commit("cartsModule/CARTS", []);
             this.$store.dispatch("cartsModule/getCart");
@@ -246,9 +246,13 @@ export default {
       width: 100%;
       margin-right: 0;
       margin-bottom: 40px;
+      padding: 0 30px;
     }
     .purchase-wrap {
       width: 100%;
+      .box-title {
+        text-align: left;
+      }
     }
   }
 }

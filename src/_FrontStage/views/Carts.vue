@@ -229,9 +229,7 @@ export default {
         margin: 30px 0 10px 0;
 
         input {
-          @include size(100%, 48px);
-          @include fontStyle(16px, 500, 16px, normal);
-          padding: 0 18px;
+          @include fontStyle(16px, 500, 16px, normal);       
           color: var(--primary-deep);
           margin-right: -1px;
         }
