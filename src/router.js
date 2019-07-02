@@ -15,6 +15,7 @@ import NewProducts from "./_FrontStage/views/Products.vue"
 import NewCarts from "./_FrontStage/views/Carts.vue"
 import NewCheckout from "./_FrontStage/views/Checkout.vue"
 import NewPayment from "./_FrontStage/views/Payment.vue"
+import Thanks from "./_FrontStage/views/Thanks.vue"
 
 Vue.use(Router);
 
@@ -102,9 +103,14 @@ export default new Router({
           component: NewCheckout
         },
         {
-          path: "newpayment",
+          path: "newpayment/:orderId",
           name: "NewPayment",
           component: NewPayment
+        },
+        {
+          path: "thanks",
+          name: "Thanks",
+          component: Thanks
         }
       ]
     }
