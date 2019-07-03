@@ -1,14 +1,12 @@
 <template>
   <div class="products-wrap">
-    <Spinner v-if="isLoading"/>
-    <div class="cate-wrap">
-      <picture>
-        <img src="~@/assets/banner.jpg" alt="banner">
-      </picture>
-      <div class="category">
-        <a @click="categoryProduct(item = '')">All</a>
-        <a v-for="item in categories" :key="item" @click="categoryProduct(item)">{{item}}</a>
-      </div>
+    <Spinner v-if="isLoading" />
+    <picture>
+      <img src="~@/assets/banner.jpg" alt="banner" />
+    </picture>
+    <div class="category-wrap">
+      <a @click="categoryProduct(item = '')">All</a>
+      <a v-for="item in categories" :key="item" @click="categoryProduct(item)">{{item}}</a>
     </div>
     <div class="filter-wrap"></div>
     <div class="cards-wrap">
@@ -25,7 +23,7 @@
             @buttonEvent="getProductInfo(item.id)"
           />
           <div class="mask-img"></div>
-          <img class="item-img" :src="`${item.imageUrl}`" :alt="item.title">
+          <img class="item-img" :src="`${item.imageUrl}`" :alt="item.title" />
         </div>
         <div class="card-item item-cate">{{ item.category }}</div>
         <div class="card-item item-name">{{ item.title }}</div>
@@ -40,7 +38,7 @@
           <span class="current-price" v-if="item.price">{{ item.price | currency}}</span>
         </div>
         <div class="button-center">
-          <Button v-bind="addToCartButton" @buttonEvent="addtoCart({id:item.id, qty:1})"/>
+          <Button v-bind="addToCartButton" @buttonEvent="addtoCart({id:item.id, qty:1})" />
         </div>
       </div>
     </div>
@@ -52,7 +50,7 @@
       <div slot="body" class="dialog-body">
         <div class="detail-top">
           <div class="detail-left">
-            <img :src="productInfo.imageUrl" :alt="productInfo.title">
+            <img :src="productInfo.imageUrl" :alt="productInfo.title" />
           </div>
           <div class="detail-right">
             <div class="product-cate">
@@ -65,7 +63,7 @@
             </div>
             <div class="product-description">{{ productInfo.description }}</div>
             <div class="qty-n-price">
-              <CountQty @buyAmount="buyAmount" class="product-quantity"/>
+              <CountQty @buyAmount="buyAmount" class="product-quantity" />
               <Button
                 v-bind="addToCartButton2"
                 class="add-to-cart-btn2"
@@ -162,29 +160,30 @@ export default {
 
 <style lang="scss" scoped>
 .products-wrap {
-  .cate-wrap {
-    picture {
-      img {
-        width: 100%;
-        height: auto;
-      }
+  picture {
+    img {
+      width: 100%;
+      height: auto;
     }
-    .category {
-      background-color: var(--primary);
-      display: flex;
-      justify-content: center;
+  }
+  .category-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: var(--primary);
+    display: flex;
+    justify-content: center;
 
-      a {
-        display: inline-block;
-        padding: 18px 30px;
-        @include linkStyle(13px, 500);
-        color: #fff;
-        &:hover {
-          background-color: var(--primary-deep);
-        }
-        &.active {
-          background-color: var(--primary-deep);
-        }
+    a {
+      display: inline-block;
+      padding: 18px 30px;
+      @include linkStyle(13px, 500);
+      color: #fff;
+      &:hover {
+        background-color: var(--primary-deep);
+      }
+      &.active {
+        background-color: var(--primary-deep);
       }
     }
   }
@@ -403,12 +402,10 @@ export default {
 }
 @media only screen and (max-width: 769px) {
   .products-wrap {
-    .cate-wrap {
-      .category {
-        a {
-          padding: 16px 20px;
-          @include linkStyle(12px, 500);
-        }
+    .category-wrap {
+      a {
+        padding: 16px 20px;
+        @include linkStyle(12px, 500);
       }
     }
     .cards-wrap {
