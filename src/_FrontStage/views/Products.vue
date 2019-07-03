@@ -65,7 +65,7 @@
             </div>
             <div class="product-description">{{ productInfo.description }}</div>
             <div class="qty-n-price">
-              <countQty @buyAmount="buyAmount" class="product-quantity"/>
+              <CountQty @buyAmount="buyAmount" class="product-quantity"/>
               <Button
                 v-bind="addToCartButton2"
                 class="add-to-cart-btn2"
@@ -85,10 +85,10 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import countQty from "../components/countQty.vue";
+import CountQty from "../components/CountQty.vue";
 
 export default {
-  components: { countQty },
+  components: { CountQty },
   data() {
     return {
       dialogScheme: {
