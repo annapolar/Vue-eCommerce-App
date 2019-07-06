@@ -1,14 +1,5 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Login from "./views/Login.vue";
-import Dashboard from "./components/Dashboard.vue";
-import ProductList from "./views/ProductList.vue";
-import OrderList from "./views/OrderList.vue";
-import CouponList from "./views/CouponList.vue";
-import Products from "./views/Products.vue"
-import Payment from "./views/Payment.vue"
-import Carts from "./views/Carts.vue"
-import Checkout from "./views/Checkout.vue"
 
 import Layout from "./_FrontStage/components/Layout.vue"
 import NewProducts from "./_FrontStage/views/Products.vue"
@@ -16,6 +7,13 @@ import NewCarts from "./_FrontStage/views/Carts.vue"
 import NewCheckout from "./_FrontStage/views/Checkout.vue"
 import NewPayment from "./_FrontStage/views/Payment.vue"
 import Thanks from "./_FrontStage/views/Thanks.vue"
+
+import Login from "./_BackStage/views/Login.vue";
+import newDashboard from "./_BackStage/components/Dashboard.vue";
+import newProductList from "./_BackStage/views/ProductList.vue";
+import newOrderList from "./_BackStage/views/OrderList.vue";
+import newCouponList from "./_BackStage/views/CouponList.vue";
+
 
 Vue.use(Router);
 
@@ -33,52 +31,25 @@ export default new Router({
     {
       path: "/admin",
       name: "dashboard",
-      component: Dashboard,
+      component: newDashboard,
       children: [
         {
           path: "productlist",
           name: "ProductList",
-          component: ProductList,
+          component: newProductList,
           meta: { requiresAuth: true }
         },
         {
           path: "orderlist",
           name: "OrderList",
-          component: OrderList,
+          component: newOrderList,
           meta: { requiresAuth: true }
         },
         {
           path: "couponlist",
           name: "CouponList",
-          component: CouponList,
+          component: newCouponList,
           meta: { requiresAuth: true }
-        }
-      ]
-    },
-    {
-      path: "/",
-      name: "dashboard",
-      component: Dashboard,
-      children: [
-        {
-          path: "products",
-          name: "Products",
-          component: Products
-        },
-        {
-          path: "payment/:orderId",
-          name: "Payment",
-          component: Payment
-        },
-        {
-          path: "carts",
-          name: "Carts",
-          component: Carts
-        },
-        {
-          path: "checkout",
-          name: "Checkout",
-          component: Checkout
         }
       ]
     },
