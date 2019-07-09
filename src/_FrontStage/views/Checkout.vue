@@ -138,7 +138,7 @@ export default {
         if (valid) {
           this.$http.post(api, { data: order }).then(res => {
             if (res.data.success) {
-              this.$router.push(`/newpayment/${res.data.orderId}`);
+              this.$router.push(`/payment/${res.data.orderId}`);
             }
             this.$store.commit("cartsModule/CARTS", []);
             this.$store.dispatch("cartsModule/getCart");

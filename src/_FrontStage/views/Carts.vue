@@ -55,7 +55,7 @@
             <h2>{{finalTotal | currency}}</h2>
           </div>
         </div>
-        <router-link to="/newcheckout">
+        <router-link to="/checkout">
           <Button v-bind="checkoutBtnScheme" class="checkout-btn"/>
         </router-link>
       </div>

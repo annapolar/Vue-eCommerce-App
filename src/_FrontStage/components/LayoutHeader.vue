@@ -6,7 +6,7 @@
       </div>
       <ul class="menu-left">
         <li class="active">Home</li>
-        <router-link to="/newproducts">
+        <router-link to="/products">
           <li>Shop</li>
         </router-link>
       </ul>
@@ -58,7 +58,7 @@ export default {
     },
     toCarts() {
       this.isCartOpen = false;
-      this.$router.push(`/newcarts`);
+      this.$router.push(`/carts`);
     }
   }
 };
