@@ -43,10 +43,7 @@
       </div>
     </div>
     <!-- ============== Dialog ================ -->
-    <Dialog v-if="showModal" v-bind="dialogScheme" class="dialog-wrap">
-      <div slot="header" class="dialog-header">
-        <ion-icon name="close" @click="closeDialog"></ion-icon>
-      </div>
+    <Dialog v-if="showModal" v-bind="dialogScheme" @closeModal="closeDialog" class="dialog-wrap">
       <div slot="body" class="dialog-body">
         <div class="detail-top">
           <div class="detail-left">
@@ -77,6 +74,7 @@
           <div class="detail-content">{{ productInfo.content }}</div>
         </div>
       </div>
+      <div slot="footer"></div>
     </Dialog>
   </div>
 </template>
