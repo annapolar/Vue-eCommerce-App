@@ -19,9 +19,9 @@
 
   .loader {
     border: 3px solid transparent;
-    border-top: 3px solid var(--secondary);
-    border-bottom: 3px solid var(--secondary);
-    border-left: 3px solid var(--secondary);
+    border-top: 3px solid var(--primary);
+    border-bottom: 3px solid var(--primary);
+    border-left: 3px solid var(--primary);
     border-radius: 50%;
     width: 70px;
     height: 70px;

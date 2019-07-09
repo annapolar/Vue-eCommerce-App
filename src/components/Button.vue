@@ -3,7 +3,7 @@
     <div :class="buttonStyle" class="button-common">
       <button
         :class="buttonSize"
-        :style="fullWidth? 'width:100%' : ''"
+        :style="fullWidth ? 'width:100%' : ''"
         @click="clickEvent"
       >{{content}}</button>
     </div>

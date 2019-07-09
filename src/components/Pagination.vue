@@ -46,5 +46,9 @@ export default {
 </script>
 
 <style>
+ul {
+  margin-bottom: 0;
+  padding:20px 0;
+}
 </style>
 
