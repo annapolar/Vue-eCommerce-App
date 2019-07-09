@@ -169,7 +169,7 @@ export default {
   .category-wrap {
     position: sticky;
     top: 0;
-    z-index: 1000;
+    z-index: 100;
     background-color: var(--primary);
     display: flex;
     justify-content: center;
