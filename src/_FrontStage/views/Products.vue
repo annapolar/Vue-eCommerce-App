@@ -1,9 +1,8 @@
 <template>
   <div class="products-wrap">
     <Spinner v-if="isLoading" />
-    <picture>
-      <img src="~@/assets/banner.jpg" alt="banner" />
-    </picture>
+    <div class="hero-section"></div>
+    <!-- ============== Category ================ -->
     <div class="category-wrap">
       <a @click="categoryProduct(item = ''), active = i" :class="{active:i == active}">All</a>
       <a
@@ -165,11 +164,14 @@ export default {
 
 <style lang="scss" scoped>
 .products-wrap {
-  picture {
-    img {
-      width: 100%;
-      height: auto;
-    }
+  .hero-section {
+    @include size(100%, 0);
+    padding-bottom: 45%;
+    background-image: url("~@/assets/home-hero.jpg");
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
   .category-wrap {
     position: sticky;
