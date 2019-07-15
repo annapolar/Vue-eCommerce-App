@@ -4,22 +4,14 @@
       <div class="burger-menu">
         <ion-icon name="menu"></ion-icon>
       </div>
-      <ul class="menu-left">
-        <li class="active">Home</li>
-        <router-link to="/products">
-          <li>Shop</li>
-        </router-link>
-      </ul>
-      <div class="brand-logo">
-        <img src="~@/assets/logo.svg" alt="logo">
-      </div>
-      <ul class="menu-right">
-        <li>Blog</li>
-        <li>About</li>
-      </ul>
+      <router-link to="/">
+        <div class="brand-logo">
+          <img src="~@/assets/logo.svg" alt="logo" />
+        </div>
+      </router-link>
       <div class="cart-icon-wrap" @click="isCartOpen=!isCartOpen">
         <div class="cart-icon">
-          <ion-icon name="cart"/>
+          <ion-icon name="cart" />
           <span class="badge" v-if="carts.length">{{carts.length}}</span>
         </div>
       </div>

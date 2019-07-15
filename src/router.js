@@ -59,7 +59,7 @@ export default new Router({
       component: Layout,
       children:[
         {
-          path: "Products",
+          path: "/",
           name: "Products",
           component: Products
         },
