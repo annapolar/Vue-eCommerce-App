@@ -5,8 +5,13 @@
       <img src="~@/assets/banner.jpg" alt="banner" />
     </picture>
     <div class="category-wrap">
-      <a @click="categoryProduct(item = '')">All</a>
-      <a v-for="item in categories" :key="item" @click="categoryProduct(item)">{{item}}</a>
+      <a @click="categoryProduct(item = ''), active = i" :class="{active:i == active}">All</a>
+      <a
+        v-for="(item,i) in categories"
+        :key="item"
+        @click="categoryProduct(item), active = i"
+        :class="{active:i == active}"
+      >{{item}}</a>
     </div>
     <div class="filter-wrap"></div>
     <div class="cards-wrap">
@@ -168,7 +173,7 @@ export default {
     position: sticky;
     top: 0;
     z-index: 100;
-    background-color: var(--primary);
+    background-color: var(--primary-deep);
     display: flex;
     justify-content: center;
 
@@ -178,10 +183,10 @@ export default {
       @include linkStyle(13px, 500);
       color: #fff;
       &:hover {
-        background-color: var(--primary-deep);
+        background-color: var(--primary);
       }
       &.active {
-        background-color: var(--primary-deep);
+        background-color: var(--primary);
       }
     }
   }
@@ -217,7 +222,7 @@ export default {
             background-color: rgba($dark, 0.5);
           }
           .item-img {
-            transform: scale(1.5);
+            transform: scale(1.1);
             transition: 0.5s;
           }
         }
@@ -226,7 +231,7 @@ export default {
           position: absolute;
           z-index: 3;
           opacity: 0;
-          transform: scale(2);
+          transform: scale(1.2);
         }
         .mask-img {
           width: 100%;
