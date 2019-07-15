@@ -110,7 +110,9 @@ export default {
         btnStyle: "secondary-w"
       },
       category: "",
-      tempNum: 1
+      tempNum: 1,
+      active: undefined,
+      i: undefined
     };
   },
   created() {
