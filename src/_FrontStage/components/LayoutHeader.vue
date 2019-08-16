@@ -9,6 +9,11 @@
           <img src="~@/assets/logo.svg" alt="logo" />
         </div>
       </router-link>
+
+      <router-link to="login">
+        <div class="login">Login</div>
+      </router-link>
+
       <div class="cart-icon-wrap" @click="isCartOpen=!isCartOpen">
         <div class="cart-icon">
           <ion-icon name="cart" />
@@ -112,12 +117,19 @@ export default {
     }
 
     .brand-logo {
-      @include size(307px, 23px);
-      margin: 0 85px;
+      @include size(317px, 53px);
+      margin: 0 auto;
       img {
         width: 100%;
         height: auto;
       }
+    }
+
+    .login {
+      position: absolute;
+      top: 42%;
+      right: 80px;
+      @include fontStyle(14px, 600, 14px, normal);
     }
 
     .cart-icon-wrap {
@@ -165,9 +177,6 @@ export default {
           padding: 15px;
         }
       }
-      .brand-logo {
-        margin: 0 30px;
-      }
     }
   }
 }
@@ -180,7 +189,7 @@ export default {
         }
       }
       .brand-logo {
-        @include size(250px, 18px);
+        @include size(260px, 43.5px);
       }
       .cart-icon-wrap {
         right: 30px;
@@ -194,10 +203,14 @@ export default {
     }
   }
 }
-@media only screen and (max-width: 580px) {
+@media only screen and (max-width: 500px) {
   .header-wrap {
     .header-container {
       @include size(100%, 70px);
+
+      .brand-logo {
+        @include size(200px, 33.5px);
+      }
 
       .burger-menu {
         height: 30px;
@@ -205,7 +218,7 @@ export default {
         left: 20px;
         top: 50%;
         transform: translateY(-50%);
-        display: block;
+        display: none;
         font-size: 28px;
         color: $dark;
         cursor: pointer;
