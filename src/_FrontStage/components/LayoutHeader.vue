@@ -203,7 +203,7 @@ export default {
     }
   }
 }
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 580px) {
   .header-wrap {
     .header-container {
       @include size(100%, 70px);

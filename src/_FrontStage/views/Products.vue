@@ -165,10 +165,9 @@ export default {
 <style lang="scss" scoped>
 .products-wrap {
   .hero-section {
-    @include size(100%, 0);
+    @include size(100%, calc(100vh - 100px));
     padding-bottom: 45%;
     background-image: url("~@/assets/home-hero.jpg");
-    background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -424,6 +423,9 @@ export default {
 }
 @media only screen and (max-width: 580px) {
   .products-wrap {
+    .hero-section{
+      @include size(100%, calc(100vh - 70px));
+    }
     .cards-wrap {
       .card-product {
         width: 50%;
